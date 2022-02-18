@@ -1,5 +1,6 @@
 library(phyloseq)
 library(vegan)
+library(dplyr)
 
 #' Wrapper around phyloseq's ordinate function
 #' Adds the metadata to the component scores
@@ -16,21 +17,22 @@ run_ordination <- function(ps, method="NMDS", ...) {
 
     ord.mod <- ordinate(ps, method=method, ...)
 
+    ## Extract components
     if (method == "PCoA") {
         components <- ord.mod$vectors
     } else {
         components <- scores(ord.mod, display="sites")
     }
-    components <- as.data.frame(components)
-    n_components <- dim(components)[2]
 
-    df <- sample_data(ps)[rownames(components),]
-    df[, sprintf("%s%s", method, 1:2)] <- components[, 1:n_components]
+    ## Add metadata to components
+    metadata <- sample_data(ps)[rownames(components),] %>% data.frame
+    components <- components %>% data.frame %>%
+        bind_cols(metadata)
 
-    results <- list(data=df, model=ord.mod)
+    results <- list(data=components, model=ord.mod)
     
     if (method %in% c("CCA", "RDA")) {
-        ## Supervised --> extract the vectors for biplot
+        ## Supervised --> we also extract the arrows for the biplot
         results$arrows <- scores(ord.mod, display="bp")
     }
     
