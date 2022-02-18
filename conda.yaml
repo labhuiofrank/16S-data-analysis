@@ -1,0 +1,15 @@
+name: labhuiofrank
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+dependencies:
+  - R >= 4.0
+  - r-tibble
+  - r-dplyr
+  - r-tidyr
+  - r-ggplot2
+  - r-data.table
+  - r-vegan
+  - bioconductor-phyloseq
+  - bioconductor-deseq2
