@@ -16,6 +16,7 @@ load_shared <- function(file) {
 }
 
 #' Load consensus taxonomy from mothur
+#' 
 #' @param file Path to cons.taxonomy file
 #' @return Taxonomy dataframe (OTU x taxonomic ranks)
 #' @examples
