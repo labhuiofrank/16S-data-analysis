@@ -1,4 +1,5 @@
 library(phyloseq)
+library(vegan)
 
 #' Wrapper around phyloseq's ordinate function to compute NMDS and include metadata
 #' This function needs to be updated with more specific behaviour for other types
@@ -17,11 +18,11 @@ run_nmds <- function(ps, method="NMDS", ...) {
 
     if (method == "NMDS") {
         print(sprintf("stress=%s, converged=%s", ord.mod$stress, ord.mod$converged))
+        components <- scores(ord.mod)
     }
 
-    components <- scores(nmds_obj)
-
-    nmds <- sample_data(ps)[rownames(components),]
-    nmds[, sprintf("NMDS%s", 1:2)] <- components
-    return(nmds)    
+    df <- sample_data(ps)[rownames(components),]
+    df[, sprintf("%s%s", method, 1:2)] <- components[, 1:2]
+    
+    return(df)
 }
