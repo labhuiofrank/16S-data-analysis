@@ -18,7 +18,7 @@ run_ordination <- function(ps, method="NMDS", ...) {
     ord.mod <- ordinate(ps, method=method, ...)
 
     ## Extract components
-    if (method == "PCoA") {
+    if (tolower(method) == "pcoa") {
         components <- ord.mod$vectors
     } else {
         components <- scores(ord.mod, display="sites")
@@ -31,10 +31,28 @@ run_ordination <- function(ps, method="NMDS", ...) {
 
     results <- list(data=components, model=ord.mod)
     
-    if (method %in% c("CCA", "RDA")) {
+    if (tolower(method) %in% c("cca", "rda")) {
         ## Supervised --> we also extract the arrows for the biplot
         results$arrows <- scores(ord.mod, display="bp")
     }
     
     return(results)
+}
+
+#' Wrapper around vegan::adonis
+#'
+#' @param ps Phyloseq object
+#' @param meta_vars Variable(s) to test
+#' @param ... Extra parameters to pass to the adonis function
+#' @return dataframe with r2 and pvalue for PERMANOVA test
+#' @examples
+#' run_adonis(ps, "Group+Season", permutations=999)
+run_adonis <- function(ps, meta_vars, ...) {
+    dists <- phyloseq::distance(ps, method="bray")
+    meta <- data.frame(sample_data(ps))
+    formula <- as.formula(sprintf("dists ~ %s", meta_vars))
+    adonis.tab <- adonis(formula, data=meta, ...)$aov.tab
+    adonis_res <- data.frame(r2=adonis.tab$R2[1], pval=adonis.tab$`Pr(>F)`[1])
+
+    return(adonis_res)
 }
