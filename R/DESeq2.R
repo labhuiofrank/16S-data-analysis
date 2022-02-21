@@ -61,7 +61,7 @@ get_results_for_contrast <- function(diagdds, variable, ref, level) {
 #' @param levels all levels for comparison with ref
 #' @return result dataframe
 #' @examples
-#' get_results_for_contrast(diagdds, "Group", "A", c("B", "C"))
+#' get_all_results(diagdds, "Group", "A", c("B", "C"))
 get_all_results <- function(diagdds, variable, ref, levels) {
     all_results <- list()
 
