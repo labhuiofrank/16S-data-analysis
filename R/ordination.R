@@ -33,10 +33,30 @@ run_ordination <- function(ps, method="NMDS", ...) {
     
     if (tolower(method) %in% c("cca", "rda")) {
         ## Supervised --> we also extract the arrows for the biplot
-        results$arrows <- scores(ord.mod, display="bp")
+        results$arrows <- scores(ord.mod, display="bp", scale="species") %>% data.frame
     }
     
     return(results)
+}
+
+plot_ordination_with_arrows <- function(data, arrows, x="CCA1", y="CCA2", fill="black", size=3,
+                                        arrow_rescale=0.5, ellipse=TRUE, ...) {
+    scale_factor <- arrow_rescale * max(abs(data[, c(x, y)])) / max(abs(arrows))
+    arrows <- arrows * scale_factor
+    label_nudge <- max(arrows) * 0.2
+
+    g <- ggplot(data) +
+        geom_point(aes_string(x=x, y=y, fill=fill), size=size, shape=21, ...) +
+        geom_segment(data=arrows, aes_string(x=0, y=0, xend=x, yend=y), 
+                     arrow=arrow(length=unit(0.2, "cm"))) + 
+        geom_text(data=arrows, aes_string(x=x, y=y), label=rownames(arrows),
+                  cex=6, nudge_x=label_nudge, nudge_y=label_nudge, fontface='bold')
+
+    if(ellipse) {
+        g <- g + stat_ellipse(geom="polygon", aes_string(x=x, y=y, fill=fill), alpha=0.2, show.legend=FALSE, level=0.75)
+    }
+
+    return(g)
 }
 
 #' Wrapper around vegan::adonis
