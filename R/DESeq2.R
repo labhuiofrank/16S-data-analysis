@@ -37,17 +37,19 @@ run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
 #' Get result table from DESeq2 object between given variable level vs reference
 #'
 #' @param diagdds DESeq2 object
-#' @param variable condition variable to test
+#' @param factor_name condition variable to test
 #' @param ref reference level for variable
 #' @param level other level for variable
 #' @return result dataframe
 #' @examples
 #' get_results_for_contrast(diagdds, "Group", "A", "B")
-get_results_for_contrast <- function(diagdds, variable, ref, level) {
-  results(diagdds, contrast=c(variable, level, ref))  %>%
+get_results_for_contrast <- function(diagdds, factor_name, ref, level) {
+  results(diagdds, contrast=c(factor_name, level, ref))  %>%
     data.frame %>%
-    select(baseMean, log2FoldChange, padj) %>% 
-    mutate(which=level) %>%
+    mutate(enriched_in=ifelse(log2FoldChange < 0, ref, level), 
+           depleted_in=ifelse(log2FoldChange > 0, ref, level)) %>%
+    mutate(log2FoldChange=abs(log2FoldChange)) %>%
+    na.omit(padj) %>%
     rownames_to_column("OTU")
 }
 
@@ -57,27 +59,19 @@ get_results_for_contrast <- function(diagdds, variable, ref, level) {
 #'
 #' @param diagdds DESeq2 object
 #' @param variable condition variable to test
-#' @param ref reference level for variable
-#' @param levels all levels for comparison with ref
+#' @param comparisons n x 2 dataframe, each row is a comparison to perform
 #' @return result dataframe
 #' @examples
 #' get_all_results(diagdds, "Group", "A", c("B", "C"))
-get_all_results <- function(diagdds, variable, ref, levels) {
-    all_results <- list()
+get_all_results <- function(diagdds, variable, comparisons) {
+    var_order <- unique(c(comparisons))
 
-    for (level in levels) {
-        all_results[[level]] <- get_results_for_contrast(diagdds, variable, ref, level)
+    all_results <- list()
+    for (i in 1:nrow(comparisons)) {
+        all_results[[i]] <- get_results_for_contrast(diagdds, variable, comparisons[i,2], comparisons[i,1])
     }
 
-    all_results <- do.call(rbind, all_results) %>%
-        group_by(OTU) %>%
-        slice_min(padj, with_ties=FALSE) %>%
-        na.omit(padj) %>%
-        mutate(signif=ifelse(log2FoldChange < 0,
-                             sprintf("overexpressed in %s", ref),
-                             sprintf("overexpressed in %s", which))) %>%
-        mutate(signif=factor(signif, sprintf("overexpressed in %s", c(ref, levels)))) %>%
-        arrange(signif)
-
-    return(all_results)
+    do.call(rbind, all_results) %>%
+      mutate(enriched_in=factor(enriched_in, var_order), 
+             depleted_in=factor(depleted_in, var_order))
 }
