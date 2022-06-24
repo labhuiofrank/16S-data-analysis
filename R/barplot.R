@@ -17,10 +17,10 @@ get_palette <- function(n) {
                  "#aa4b28","#35896b","#e2798a","#1a6447","#e390bf","#306a3c","#a56395",
                  "#4d6d30","#924869","#aab56e","#e38f6b","#666020","#d1a965","#966433",
                  "#868949")
-  if (n > 50) {
-    palette <- rep(palette, 1+floor(n/50))[1:n]
+  while (n > length(palette)) {
+    palette <- rep(palette, 1+floor(n/50))
   }
-  return(palette)
+  return(palette[1:n])
 }
 
 #' Taxonomic stacked barplot of phyloseq object.
