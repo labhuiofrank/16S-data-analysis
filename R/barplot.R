@@ -30,10 +30,12 @@ get_palette <- function(n) {
 #' @param taxrank Taxonomic rank to gather taxa (stacked for each level of x)
 #' @param min_relabund Below this threshold, replace taxa name to "< x%" to
 #' make the plot for readable and reduce the number of colors
-#' @return ggplot object (geom_bar)
+#' @param return_df Whether to return the formatted dataframe or plot
+#' @return ggplot object (geom_bar) or a dataframe if return_df is TRUE
 #' @examples
 #' taxa_barplot(ps, x="sample_type", taxrank="Phylum", min_relabund=0.01)
-taxa_barplot <- function(ps, x=NULL, taxrank=NULL, min_relabund=0.01) {
+taxa_barplot <- function(ps, x=NULL, taxrank=NULL,
+                         min_relabund=0.01, return_df=FALSE) {
     # Sum taxa by {tax_rank}
     ps <- speedyseq::tax_glom(ps, taxrank)
     # Sum samples for each level of {x}
@@ -42,7 +44,7 @@ taxa_barplot <- function(ps, x=NULL, taxrank=NULL, min_relabund=0.01) {
     ps <- transform_sample_counts(ps, function(x) x/sum(x))
     
     # Transform phyloseq object to data frame
-    data <- speedyseq::psmelt(ps)[, c(taxrank, x, "Abundance")]
+    data <- speedyseq::psmelt(ps)[, c(x, taxrank, "Abundance")]
 
     # Replace low abundance species with filler "< xx %"
     filler <- sprintf('Other(<%.f%%)', 100*min_relabund)
@@ -59,10 +61,16 @@ taxa_barplot <- function(ps, x=NULL, taxrank=NULL, min_relabund=0.01) {
         data <- data %>% mutate_at(taxrank, ~ relevel(., filler))
     }
 
-    # Display
-    ggplot(data=data, aes_string(x=x, y="Abundance", fill=taxrank)) +
-        geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
-        scale_fill_manual(values=get_palette(nlevels(data[, taxrank]))) +
-        ylab('Relative abundance') + 
-        guides(fill=guide_legend(reverse=T))
+    # Return
+    if(return_df) {
+        return(data)
+    } else {
+        return(ggplot(data=data, aes_string(x=x, y="Abundance", fill=taxrank)) +
+               geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
+               scale_fill_manual(values=get_palette(nlevels(data[, taxrank]))) +
+               ylab('Relative abundance') + 
+               guides(fill=guide_legend(reverse=T))
+               )
+    }
+    
 }
