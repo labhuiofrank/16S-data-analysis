@@ -8,7 +8,7 @@ get_palette <- function(n) {
   return(palette)
 }
 
-taxa <- read.table("/Users/klfrank/Dropbox/Post-Grad/Bioinformatics/R-Microbiome-Statistics/Functions/Function_Scripts/Consistent_Pallet/taxa_barfile_color_palette.csv", header=T, row.names=1, sep=",")
+taxa <- read.table("../databases/taxa_barfile_color_palette.csv", header=T, row.names=1, sep=",")
 
 #PALETTE FOR TAXA BARPLOT  
 n <- nrow(taxa)
