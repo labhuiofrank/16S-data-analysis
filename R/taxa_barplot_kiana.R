@@ -63,7 +63,7 @@ taxa_barplot <- function(mg, tax_lvl, groups=target, thresh=1e-2, normalize=TRUE
     scale_fill_manual(values=taxa_palette_named) +
     ylab('Proportion') + xlab('') +
     theme_linedraw() +
-    guides(fill=guide_legend(nrow=nrows_legend, reverse=T)) +
+    guides(fill=guide_legend(nrow=nrows_legend, reverse=T)) + 
     theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1),
           axis.text = element_text(size=6),
           axis.line=element_line("gray25"),
