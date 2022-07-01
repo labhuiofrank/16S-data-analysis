@@ -63,16 +63,13 @@ This repository is a collection of useful scripts and function for the analysis 
 
 ## **databases --- .csv databases for subsetting or setting color palettes **
 - **taxa\_barfile\_color\_palette.csv** : List of all taxa at every level, based on Silva v 138 taxa annotations
+- **FAPROTAX1.2.4_to_Silvav138.csv** : Mapping file to Silva v 138 with all of FAPROTAX annotations and metabolisms, can use this file to get at all types of metabolisms
+- **function_N_bygenus.csv** : : List of putative Nitrogen cyclers from FAPROTAX version 1.2.4 at genus level
+- **nfix.csv** : List of putative nitrogen ficerss from FAPROTAX version 1.2.4 at genus level
+- **DRNA.csv** : List of putative organisms capable of DNRA from FAPROTAX version 1.2.4 at genus level
+- **function_N_S_bygenus.csv**: List of putative Nitrogen and Sulfur cyclers from FAPROTAX version 1.2.4 at genus level
+- **function_S_bygenus.csv** : List of putative Sulfur cyclers from FAPROTAX version 1.2.4 at genus level
+- **methanecycling.csv** : List of putative methane cyclers from FAPROTAX version 1.2.4 at genus level
+- **PATRIC\_human\_pathogens\_lineage.csv** : PATRIC database to species/strain level
 - **pathogens_genus.csv** : List of putative pathogens from PATRIC database at genus level
 - **plant_pathogens.csv** : List of putative plant pathogens from FAPROTAX version 1.2.4 at genus level
-- **DRNA.csv** : List of putative organisms capable of DNRA from FAPROTAX version 1.2.4 at genus level
-- **methanecycling.csv** : 
-FAPROTAX1.2.4_to_Silvav138.csv
-function_N_bygenus.csv
-function_N_S_bygenus.csv
-function_S_bygenus.csv
-nfix.csv
-pathogens_genus.csv
-PATRIC_human_pathogens_lineage.csv
-plant_pathogens.csv
-taxa_barfile_color_palette.csv
