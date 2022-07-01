@@ -2,7 +2,7 @@
 
 This repository is a collection of useful scripts and function for the analysis 16S sequencing data.
 
-## **R --- **
+## R 
 **R scripts**
 
 ### For helping to format sequencing data into phyloseq objects
@@ -60,11 +60,11 @@ This repository is a collection of useful scripts and function for the analysis 
 	- Need to do this to set palettes for subset\_barplot
 	- get_palette(n): Custom color palette for large groups, repeats palette when n > 195
 
-## **Rmd\_examples\_explained --- **
-** Annotated R-markdown scripts and examples **
+## Rmd\_examples\_explained 
+**Annotated R-markdown scripts and examples**
 
-## **databases ---**
-** .csv databases for subsetting or setting color palettes **
+## databases 
+**.csv databases for subsetting or setting color palettes**
 - **taxa\_barfile\_color\_palette.csv** : List of all taxa at every level, based on Silva v 138 taxa annotations
 - **FAPROTAX1.2.4_to_Silvav138.csv** : Mapping file to Silva v 138 with all of FAPROTAX annotations and metabolisms, can use this file to get at all types of metabolisms
 - **function_N_bygenus.csv** : : List of putative Nitrogen cyclers from FAPROTAX version 1.2.4 at genus level
