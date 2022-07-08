@@ -50,7 +50,7 @@ get_taxonomic_palette <- function(taxa_names) {
 #' @importFrom ggplot2 aes_string
 #' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 facet_grid
-#' @importFrom ggplot2 scale_color_manual
+#' @importFrom ggplot2 scale_fill_manual
 #' @importFrom ggplot2 guides
 #' @importFrom ggplot2 guide_legend
 #' 
