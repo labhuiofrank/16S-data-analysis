@@ -4,6 +4,11 @@
 #'
 #' @param tsize Base text size
 #' @return ggplot2 theme object
+#' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 element_rect
 #' @export
 #' @examples
 #' theme_presentation(20)
@@ -44,6 +49,10 @@ theme_presentation<- function(tsize=24){
 #' @param xaxis Rotation for x-axis text
 #' @param xhjust Horizontal text justification (from 0: left to 1: right)
 #' @return ggplot2 theme object
+#' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 element_text
 #' @export
 #' @examples
 #' theme_report(15, 45, 1)
@@ -68,6 +77,9 @@ theme_report<- function(tsize=18, xaxis=90, xhjust=1) {
 #' @param pointSize Point size
 #' @param textSize Text size
 #' @param textSize Spacing between legend elements
+#' @importFrom ggplot2 guides
+#' @importFrom ggplot2 guide_legend
+#' @importFrom ggplot2 element_text
 #' @export
 #' @return ggplot2 object
 #' @examples

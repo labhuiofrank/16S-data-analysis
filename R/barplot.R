@@ -46,6 +46,14 @@ get_taxonomic_palette <- function(taxa_names) {
 #' make the plot for readable and reduce the number of colors
 #' @param return_df Whether to return the formatted dataframe or plot
 #' @return ggplot object (geom_bar) or a dataframe if return_df is TRUE
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes_string
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 facet_grid
+#' @importFrom ggplot2 scale_color_manual
+#' @importFrom ggplot2 guide
+#' @importFrom ggplot2 guide_legend
+#' 
 #' @export
 #' @examples
 #' taxa_barplot(ps, x="sample_type", taxrank="Phylum", min_relabund=0.01)
@@ -85,8 +93,8 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     # Choose color palette from database folder
     palette <- get_taxonomic_palette(data %>% dplyr::pull(taxrank))
     
-    p <- ggplot2::ggplot(data=data, aes_string(x=x, y=y, fill=taxrank)) +
-        ggplot2::geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
+    p <- ggplot(data=data, aes_string(x=x, y=y, fill=taxrank)) +
+        geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
         scale_fill_manual(values=get_palette(nlevels(data %>% dplyr::pull(taxrank)))) +
         guides(fill=guide_legend(reverse=T, nrow=nrows_legend))
 
@@ -97,6 +105,6 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
         ifelse(is.null(cols), ".", cols)
     )
 
-    p <- p + ggplot2::facet_grid(as.formula(facets))
+    p <- p + facet_grid(as.formula(facets))
     return(p)
 }
