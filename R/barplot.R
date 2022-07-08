@@ -51,7 +51,7 @@ get_taxonomic_palette <- function(taxa_names) {
 #' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 facet_grid
 #' @importFrom ggplot2 scale_color_manual
-#' @importFrom ggplot2 guide
+#' @importFrom ggplot2 guides
 #' @importFrom ggplot2 guide_legend
 #' 
 #' @export
@@ -65,7 +65,7 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     ps <- speedyseq::tax_glom(ps, taxrank)
     # Group samples for each combination of factors in [x, rows, cols]
     all_cols <- sapply(c(x, rows, cols), function(v) phyloseq::get_variable(ps, v))
-    sample_data(ps)$combined <- apply(all_cols, 1, paste0, collapse="_")
+    phyloseq::sample_data(ps)$combined <- apply(all_cols, 1, paste0, collapse="_")
     ps <- speedyseq::merge_samples2(ps, "combined")
     # Transform phyloseq object to data frame and compute relative abundances
     data <- speedyseq::psmelt(ps) %>% dplyr::group_by(combined) %>%
