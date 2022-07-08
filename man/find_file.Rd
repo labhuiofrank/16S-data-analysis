@@ -17,6 +17,8 @@ find_file(folder, pattern, abort = FALSE, warning = TRUE)
 \item{pattern}{Regex pattern}
 
 \item{abort}{Whether to abort if no matches are found}
+
+\item{warning}{Whether to send warning if no matches are found}
 }
 \value{
 file path

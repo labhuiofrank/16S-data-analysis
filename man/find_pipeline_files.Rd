@@ -7,12 +7,15 @@ contains all the necessary files (abund, tax) for a
 given OTU identity theshold and returns
 the paths in a list}
 \usage{
-find_pipeline_files(folder, otu_id = 100)
+find_pipeline_files(folder, otu_id = 100, meta_file = NULL)
 }
 \arguments{
 \item{folder}{Path to pipeline output folder}
 
 \item{otu_id}{OTU Identity threshold}
+
+\item{meta_file}{Path to metadata file. Look for csv
+files in folder if NULL}
 }
 \value{
 list of file paths

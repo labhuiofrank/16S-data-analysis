@@ -11,7 +11,7 @@ load_cmaiki(
   folder = NULL,
   abund_file = NULL,
   tax_file = NULL,
-  metadata_file = NULL,
+  meta_file = NULL,
   tree_file = NULL,
   otu_id = 100
 )
@@ -24,7 +24,7 @@ load_cmaiki(
 
 \item{tax_file}{Path to .cons.taxonomy file}
 
-\item{metadata_file}{Path to sample metadata (csv formatted).}
+\item{meta_file}{Path to sample metadata (csv formatted).}
 
 \item{tree_file}{Path to phylogenetic tree (otpional)
 Assumes there is a header and the first column are the sample names}
@@ -43,5 +43,5 @@ the individual files.
 }
 \examples{
 load_cmaiki("pipeline-2022-07-9/", )
-load_cmaiki(abund_file="OTUs.100.rep.count_table", tax_file="OTUs.100.cons.taxonomy", metadata="proj/metadata.csv")
+load_cmaiki(abund_file="OTUs.100.rep.count_table", tax_file="OTUs.100.cons.taxonomy", meta_file="proj/metadata.csv")
 }

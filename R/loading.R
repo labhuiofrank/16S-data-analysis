@@ -25,6 +25,7 @@ check_ext <- function(file, expected, abort=FALSE) {
 #' @param folder Folder to check
 #' @param pattern Regex pattern
 #' @param abort Whether to abort if no matches are found
+#' @param warning Whether to send warning if no matches are found
 #' @return file path
 #'
 find_file <- function(folder, pattern, abort=FALSE, warning=TRUE) {
@@ -33,6 +34,7 @@ find_file <- function(folder, pattern, abort=FALSE, warning=TRUE) {
         recursive=TRUE, full.names=TRUE
     )
     if(length(matches) == 0) {
+        matches <- NULL # otherwise NA, makes error handling easier later
         msg <- sprintf(
             "Could not find any file with pattern %s",
             pattern
@@ -134,22 +136,26 @@ load_metadata <- function(file) {
 #' 
 #' @param folder Path to pipeline output folder
 #' @param otu_id OTU Identity threshold
+#' @param meta_file Path to metadata file. Look for csv
+#' files in folder if NULL
 #' @return list of file paths
 #' @export
 #' @examples
 #' find_pipeline_files("2022-07-01/")
-find_pipeline_files <- function(folder, otu_id=100) {
-    ## Special case for abundance file
-    ## since there are 2 valid patterns (rep.count_table or .shared)
+find_pipeline_files <- function(folder, otu_id=100, meta_file=NULL) {
+    # 2 valid patterns for abundance file (rep.count_table or .shared)
     abund_file <- find_file(folder, sprintf(".%s.rep.count_table$", otu_id), abort=FALSE)
     if(length(abund_file) == 0) {
         abund_file <- find_file(folder, sprintf(".%s.shared$", otu_id), abort=TRUE)
     }
-
+    # Look for metadata if not provided
+    if(is.null(meta_file)) {
+        meta_file <- find_file(folder, ".[ct]sv$", warning=FALSE)
+    }
     return(list(
         abund=abund_file,
         tax=find_file(folder, sprintf(".%s.cons.taxonomy$", otu_id), abort=TRUE),
-        metadata=find_file(folder, ".[ct]sv$", warning=FALSE),
+        meta=meta_file,
         tree=find_file(folder, sprintf(".%s.nwk$", otu_id), warning=FALSE)
     ))
 }
@@ -166,40 +172,40 @@ find_pipeline_files <- function(folder, otu_id=100) {
 #' @param abund_file Path to abundance file
 #' (either .count_table or .shared)
 #' @param tax_file Path to .cons.taxonomy file
-#' @param metadata_file Path to sample metadata (csv formatted).
+#' @param meta_file Path to sample metadata (csv formatted).
 #' @param tree_file Path to phylogenetic tree (otpional)
 #' Assumes there is a header and the first column are the sample names
 #' @return phyloseq object
 #' @export
 #' @examples
 #' load_cmaiki("pipeline-2022-07-9/", )
-#' load_cmaiki(abund_file="OTUs.100.rep.count_table", tax_file="OTUs.100.cons.taxonomy", metadata="proj/metadata.csv")
-load_cmaiki <- function(folder=NULL, abund_file=NULL, tax_file=NULL, metadata_file=NULL, tree_file=NULL, otu_id=100){
+#' load_cmaiki(abund_file="OTUs.100.rep.count_table", tax_file="OTUs.100.cons.taxonomy", meta_file="proj/metadata.csv")
+load_cmaiki <- function(folder=NULL, abund_file=NULL, tax_file=NULL, meta_file=NULL, tree_file=NULL, otu_id=100){
 
-    if(is.null(folder) && (is.null(abund_file) | is.null(tax_file) | is.null(metadata_file))) {
+    if(is.null(folder) && (is.null(abund_file) | is.null(tax_file) | is.null(meta_file))) {
         stop("You must either provide the folder or all the individual files")
     } else if(!is.null(folder)) {
         if(!is.null(abund_file) | !is.null(tax_file)) {
             stop("You can't provide both the folder and all the individual files")
         }
         # Find all files in provided folder
-        files <- find_pipeline_files(folder, otu_id)
+        files <- find_pipeline_files(folder, otu_id, meta_file=meta_file)
         abund_file <- files$abund
         tax_file <- files$tax
-        metadata_file <- ifelse(is.null(metadata_file), files$metadata, metadata_file)
+        meta_file <- files$meta
         tree_file <- files$tree
     }
-    if(any(is.na(metadata_file) || is.null(metadata_file))) {
+    if(is.null(meta_file)) {
         stop("Could not find metadata file.")
     }
     ps_data <- list(
         phyloseq::otu_table(load_abund(abund_file),
                             taxa_are_rows=endsWith(abund_file, "count_table")),
         phyloseq::tax_table(load_constaxonomy(tax_file) %>% as.matrix()),
-        phyloseq::sample_data(load_metadata(metadata_file))
+        phyloseq::sample_data(load_metadata(meta_file))
     )
     # Add tree if provided
-    if(any(!is.null(tree_file) & !is.na(tree_file))) {
+    if(!is.null(tree_file)) {
         check_ext(tree_file, "nwk", abort=FALSE)
         ps_data <- append(ps_data, phyloseq::read_tree(tree_file))
     }
