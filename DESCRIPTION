@@ -1,4 +1,4 @@
-Package: labhuiofrank-16S
+Package: labhuiofrank.16S
 Title: Tools for analyzing and plotting 16S data
 Version: 0.0.1
 Authors@R: c(
@@ -23,8 +23,6 @@ Imports:
     phyloseq,
     speedyseq,
     DESeq2
-VignetteBuilder: 
-    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
