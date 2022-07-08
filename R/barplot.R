@@ -95,7 +95,7 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     
     p <- ggplot(data=data, aes_string(x=x, y=y, fill=taxrank)) +
         geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
-        scale_fill_manual(values=get_palette(palette) +
+        scale_fill_manual(values=get_palette(palette)) +
         guides(fill=guide_legend(reverse=T, nrow=nrows_legend))
 
     # Facet arguments, need to handle null values
