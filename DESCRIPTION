@@ -22,7 +22,8 @@ Imports:
     vegan,
     phyloseq,
     speedyseq,
-    DESeq2
+    DESeq2,
+    magrittr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
