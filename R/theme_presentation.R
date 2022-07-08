@@ -1,7 +1,13 @@
 #functions that will help with presentation and report writing to easily modify legend and text sizes.
 
+#' Theme for black background presentations
+#'
+#' @param tsize Base text size
+#' @return ggplot2 theme object
+#' @export
+#' @examples
+#' theme_presentation(20)
 theme_presentation<- function(tsize=24){
- #for black background presentations
    theme_bw() %+replace%
     theme(
       strip.background = element_blank(),
@@ -32,9 +38,16 @@ theme_presentation<- function(tsize=24){
     )
 }
 
-
+#' Theme for reports. Starts with theme_grey and then modify some parts
+#'
+#' @param tsize Base text size
+#' @param xaxis Rotation for x-axis text
+#' @param xhjust Horizontal text justification (from 0: left to 1: right)
+#' @return ggplot2 theme object
+#' @export
+#' @examples
+#' theme_report(15, 45, 1)
 theme_report<- function(tsize=18, xaxis=90, xhjust=1) {
-  # Starts with theme_grey and then modify some parts
   theme_bw() %+replace%
     theme(
       axis.text.x = element_text(size=tsize-6, angle = xaxis,hjust=xhjust, colour="black"),
@@ -49,6 +62,16 @@ theme_report<- function(tsize=18, xaxis=90, xhjust=1) {
       legend.key.size=unit(0.5, 'lines'))
 }
 
+#' Change plot legend to make it smaller
+#'
+#' @param myPlot ggplot2 object to edit
+#' @param pointSize Point size
+#' @param textSize Text size
+#' @param textSize Spacing between legend elements
+#' @export
+#' @return ggplot2 object
+#' @examples
+#' addSmallLegend(p)
 addSmallLegend <- function(myPlot, pointSize = 3, textSize = 6, spaceLegend = 0.1) {
   myPlot +
     guides(shape = guide_legend(override.aes = list(size = pointSize)),

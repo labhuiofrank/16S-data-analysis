@@ -1,10 +1,6 @@
-library(DESeq2)
-library(phyloseq)
-library(tibble)
-library(dplyr)
-
-
 #' Geometric mean function for vectors with zeros
+#' @param x Vector of positive values to compute the geometric mean on
+#' @return Numeric value
 geom_mean <- function(x) exp(mean(log(x[x>0]), na.rm=TRUE))
 
 #' Wrapper around DESeq functions
@@ -14,24 +10,25 @@ geom_mean <- function(x) exp(mean(log(x[x>0]), na.rm=TRUE))
 #' @param gm Whether or not to use geometric mean for size factor estimation. Might be necessary if there are a lot of zero (or add pseudocount
 #' @param pseudocount Pseudocount to add to abundance table if there are too many zeros
 #' @return DESeq2 object
+#' @export
 #' @examples
 #' run_deseq2(ps, ~ Season + Group, gm=TRUE)
 #' run_deseq2(ps, ~ Season + Group, pseudocount=1)
 run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
     ## Add pseudocount if needed
-    otu_table(ps) <- otu_table(ps) + pseudocount
+    phyloseq::otu_table(ps) <- phyloseq::otu_table(ps) + pseudocount
 
     ## Convert to DESeqDataSet object
-    diagdds <- phyloseq_to_deseq2(ps, design)
+    diagdds <- phyloseq::phyloseq_to_deseq2(ps, design)
 
     ## Use geometric mean for size factors if needed
     if (gm) {
-        geoMeans <- apply(counts(diagdds), 1, geom_mean)
-        diagdds <- estimateSizeFactors(diagdds, geoMeans=geoMeans)
+        geoMeans <- apply(DESeq2::counts(diagdds), 1, geom_mean)
+        diagdds <- DESeq2::estimateSizeFactors(diagdds, geoMeans=geoMeans)
     }
 
     ## Run DESeq2
-    DESeq(diagdds, fitType="local", test="Wald", parallel=TRUE)
+    DESeq2::DESeq(diagdds, fitType="local", test="Wald", parallel=TRUE)
 }
 
 #' Get result table from DESeq2 object between given variable level vs reference
@@ -41,16 +38,16 @@ run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
 #' @param ref reference level for variable
 #' @param level other level for variable
 #' @return result dataframe
+#' @export
 #' @examples
 #' get_results_for_contrast(diagdds, "Group", "A", "B")
 get_results_for_contrast <- function(diagdds, factor_name, ref, level) {
-  results(diagdds, contrast=c(factor_name, level, ref))  %>%
-    data.frame %>%
-    mutate(enriched_in=ifelse(log2FoldChange < 0, ref, level), 
-           depleted_in=ifelse(log2FoldChange > 0, ref, level)) %>%
-    mutate(log2FoldChange=abs(log2FoldChange)) %>%
-    na.omit(padj) %>%
-    rownames_to_column("OTU")
+  DESeq2::results(diagdds, contrast=c(factor_name, level, ref))  %>% data.frame %>%
+    dplyr::mutate(enriched_in=ifelse(log2FoldChange < 0, ref, level), 
+                  depleted_in=ifelse(log2FoldChange > 0, ref, level)) %>%
+    dplyr::mutate(log2FoldChange=abs(log2FoldChange)) %>%
+    dplyr::na.omit(padj) %>%
+    tibble::rownames_to_column("OTU")
 }
 
 #' Get result table from DESeq2 object between all levels vs reference
@@ -61,9 +58,10 @@ get_results_for_contrast <- function(diagdds, factor_name, ref, level) {
 #' @param variable condition variable to test
 #' @param comparisons n x 2 dataframe, each row is a comparison to perform
 #' @return result dataframe
+#' @export
 #' @examples
-#' get_all_results(diagdds, "Group", "A", c("B", "C"))
-get_all_results <- function(diagdds, variable, comparisons) {
+#' get_results_for_all_results(diagdds, "Group", "A", c("B", "C"))
+get_results_for_all_contrasts <- function(diagdds, variable, comparisons) {
     var_order <- unique(c(comparisons))
 
     all_results <- list()
@@ -72,6 +70,6 @@ get_all_results <- function(diagdds, variable, comparisons) {
     }
 
     do.call(rbind, all_results) %>%
-      mutate(enriched_in=factor(enriched_in, var_order), 
-             depleted_in=factor(depleted_in, var_order))
+      dplyr::mutate(enriched_in=factor(enriched_in, var_order), 
+                    depleted_in=factor(depleted_in, var_order))
 }

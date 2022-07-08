@@ -1,0 +1,31 @@
+Package: labhuiofrank-16S
+Title: Tools for analyzing and plotting 16S data
+Version: 0.0.1
+Authors@R: c(
+    person("Cedric", "Arisdakessian", , role = c("aut", "cre")),
+    person("Kiana", "Frank", role = c("aut", "cre"))
+  )
+Description: Helper functions to manipulate and plot marker gene
+    data. Most of the function are a layer above phyloseq to
+    make the plotting more direct.
+License: MIT + file LICENSE
+URL: https://www.labhuiofrank.com, https://github.com/labhuiofrank/16S-data-analysis.git
+BugReports: //github.com/labhuiofrank/16S-data-analysis/issues
+Depends: 
+    R (>= 4.0)
+Imports:
+    tibble,
+    dplyr,
+    tidyr,
+    ggplot2,
+    data.table,
+    vegan,
+    phyloseq,
+    speedyseq,
+    DESeq2
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
