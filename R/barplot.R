@@ -7,7 +7,7 @@
 #' @examples
 #' get_taxonomic_palette(c("Alphaproteobacteria", "Zetaproteobacteria", "Other"))
 get_taxonomic_palette <- function(taxa_names) {
-    db_path <- "../databases/taxa_palette.csv"
+    db_path <- system.file("extdata", "taxa_palette.csv", package="labhuiofrank.16S")
     ## tibble::deframe converts a 2 column dataframe to named vector
     custom_pal <- read.csv(db_path) %>% tibble::deframe()
 
