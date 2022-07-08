@@ -7,7 +7,7 @@
 #' load_shared("abundance.100.shared")
 load_shared <- function(file) {
     abundance <- data.table::fread(file, drop=c("label", "numOtus"), header=T, blank.lines.skip=T) %>%
-        tibble::tibble %>%
+        tibble::tibble() %>%
         tibble::column_to_rownames("Group")
     return(abundance)
 }
@@ -21,7 +21,7 @@ load_shared <- function(file) {
 #' load_counttable("OTUs.100.rep.count_table")
 load_counttable <- function(file) {
     abundance <- data.table::fread(file, drop=c("total"), header=T, blank.lines.skip=T) %>%
-        tibble::tibble %>%
+        tibble::tibble() %>%
         tibble::column_to_rownames("Representative_Sequence")
     return(abundance)
 }
