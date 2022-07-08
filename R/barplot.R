@@ -61,7 +61,7 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     ps <- speedyseq::merge_samples2(ps, "combined")
     # Transform phyloseq object to data frame and compute relative abundances
     data <- speedyseq::psmelt(ps) %>% group_by(combined) %>%
-        mutate(relabund=Abundance/sum(Abundance))
+        dplyr::mutate(relabund=Abundance/sum(Abundance))
     # Replace low abundance species with filler "< xx %"
     filler <- sprintf('Other(<%.f%%)', 100*min_relabund)
     data[data$relabund < min_relabund, taxrank] <- filler
