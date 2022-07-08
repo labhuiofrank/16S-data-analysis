@@ -27,32 +27,37 @@ get_palette <- function(n) {
 #'
 #' @param ps Phyloseq object to plot
 #' @param x Categorical variable in metadata, displayed in x-axis
+#' @param y Variable for the height of bars. Either "Abundance" or
+#' "relabund" (the latter normalize the bars to the same height)
 #' @param taxrank Taxonomic rank to gather taxa (stacked for each level of x)
+#' @param rows Factor for row facets
+#' @param cols Factor for col facets
 #' @param min_relabund Below this threshold, replace taxa name to "< x%" to
 #' make the plot for readable and reduce the number of colors
 #' @param return_df Whether to return the formatted dataframe or plot
 #' @return ggplot object (geom_bar) or a dataframe if return_df is TRUE
 #' @examples
 #' taxa_barplot(ps, x="sample_type", taxrank="Phylum", min_relabund=0.01)
-taxa_barplot <- function(ps, x=NULL, taxrank=NULL,
+#' taxa_barplot(ps, x="sample_type", y="relabund", taxrank="Phylum", rows="Season")
+taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
+                         rows=NULL, cols=NULL,
                          min_relabund=0.01, return_df=FALSE) {
-    # Sum taxa by {tax_rank}
+    # Group taxa by {tax_rank}
     ps <- speedyseq::tax_glom(ps, taxrank)
-    # Sum samples for each level of {x}
-    ps <- speedyseq::merge_samples2(ps, x)
-    # Convert to relative abundance
-    ps <- transform_sample_counts(ps, function(x) x/sum(x))
-    
-    # Transform phyloseq object to data frame
-    data <- speedyseq::psmelt(ps)[, c(x, taxrank, "Abundance")]
-
+    # Group samples for each combination of factors in [x, rows, cols]
+    all_cols <- sapply(c(x, rows, cols), function(v) phyloseq::get_variable(ps, v))
+    sample_data(ps)$combined <- apply(all_cols, 1, paste0, collapse="_")
+    ps <- speedyseq::merge_samples2(ps, "combined")
+    # Transform phyloseq object to data frame and compute relative abundances
+    data <- speedyseq::psmelt(ps) %>% group_by(combined) %>%
+        mutate(relabund=Abundance/sum(Abundance))
     # Replace low abundance species with filler "< xx %"
     filler <- sprintf('Other(<%.f%%)', 100*min_relabund)
-    data[data$Abundance < min_relabund, taxrank] <- filler
+    data[data$relabund < min_relabund, taxrank] <- filler
     
     # Get the taxa ordering (by total relabund)
     sorted_taxa <- data %>% group_by_at(taxrank) %>%
-        summarize(score=sum(Abundance)) %>%
+        summarize(score=sum(relabund)) %>%
         arrange(score) %>% pull(1)
 
     # Order the taxa and put the filler at the end
@@ -64,13 +69,19 @@ taxa_barplot <- function(ps, x=NULL, taxrank=NULL,
     # Return
     if(return_df) {
         return(data)
-    } else {
-        return(ggplot(data=data, aes_string(x=x, y="Abundance", fill=taxrank)) +
-               geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
-               scale_fill_manual(values=get_palette(nlevels(data[, taxrank]))) +
-               ylab('Relative abundance') + 
-               guides(fill=guide_legend(reverse=T))
-               )
-    }
-    
+    } 
+    p <- ggplot(data=data, aes_string(x=x, y=y, fill=taxrank)) +
+        geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
+        scale_fill_manual(values=get_palette(nlevels(data %>% pull(taxrank)))) +
+        guides(fill=guide_legend(reverse=T))
+
+    # Facet arguments, need to handle null values
+    facets <- sprintf(
+        "%s ~ %s", 
+        ifelse(is.null(rows), ".", rows), 
+        ifelse(is.null(cols), ".", cols)
+    )
+
+    p <- p + facet_grid(as.formula(facets))
+    return(p)
 }
