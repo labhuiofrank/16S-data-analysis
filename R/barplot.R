@@ -69,7 +69,7 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     # Get the taxa ordering (by total relabund)
     sorted_taxa <- data %>% dplyr::group_by_at(taxrank) %>%
         dplyr::summarize(score=sum(relabund)) %>%
-        dplyr::arrange(score) %>% pull(1)
+        dplyr::arrange(score) %>% dplyr::pull(1)
 
     # Order the taxa and put the filler at the end
     data <- data %>% dplyr::mutate_at(taxrank, ~ factor(., sorted_taxa))
@@ -83,7 +83,7 @@ taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
     }
 
     # Choose color palette from database folder
-    palette <- get_taxonomic_palette(data %>% pull(taxrank))
+    palette <- get_taxonomic_palette(data %>% dplyr::pull(taxrank))
     
     p <- ggplot2::ggplot(data=data, aes_string(x=x, y=y, fill=taxrank)) +
         ggplot2::geom_bar(stat="identity", position="stack", color="black", size=0.5, width=0.7) +
