@@ -7,7 +7,7 @@
 taxa_barplot(
   ps,
   x = NULL,
-  y = "Abundance",
+  y = "relabund",
   taxrank = "Class",
   rows = NULL,
   cols = NULL,
