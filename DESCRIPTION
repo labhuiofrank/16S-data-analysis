@@ -2,8 +2,8 @@ Package: labhuiofrank-16S
 Title: Tools for analyzing and plotting 16S data
 Version: 0.0.1
 Authors@R: c(
-    person("Cedric", "Arisdakessian", role = c("aut", "cre")),
-    person("Kiana", "Frank", email="labhuiofrank@gmail.com", role = c("aut", "cre"))
+    person("Cedric", "Arisdakessian", email="carisdak@hawaii.edu", role = c("aut", "cre")),
+    person("Kiana", "Frank", email="klfrank@hawaii.edu", role = c("ctb"))
   )
 Description: Helper functions to manipulate and plot marker gene
     data. Most of the function are a layer above phyloseq to
