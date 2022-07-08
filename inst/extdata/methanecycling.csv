@@ -1,0 +1,80 @@
+﻿Genus,Metabolism,Silvatax,methanotrophy,acetoclastic_methanogenesis,methanogenesis_by_disproportionation_of_methyl_groups,methanogenesis_using_formate,methanogenesis_by_CO2_reduction_with_H2,methanogenesis_by_reduction_of_methyl_compounds_with_H2,hydrogenotrophic_methanogenesis,methanogenesis,methanol_oxidation,methylotrophy,CH4_cyclicers
+Acetobacter,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Acetobacterales;Acetobacteraceae;Acetobacter,0,0,0,0,0,0,0,0,1,0,1
+Acidicaldus,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Acetobacterales;Acetobacteraceae;Acidicaldus,0,0,0,0,0,0,0,0,1,0,1
+Alkalibaculum,Other C-1 cycler,Bacteria;Firmicutes;Clostridia;Eubacteriales;Eubacteriales_fa;Alkalibaculum,0,0,0,0,0,0,0,0,1,0,1
+ANME-2c_ge,Methanotroph,Archaea;Halobacterota;Methanosarcinia;Methanosarciniales;ANME-2c;ANME-2c_ge,1,0,0,0,0,0,0,0,0,0,1
+Anoxybacillus,Methanotroph,Bacteria;Firmicutes;Bacilli;Bacillales;Bacillaceae;Anoxybacillus,1,0,0,0,0,0,0,0,0,0,1
+Arthrobacter,Other C-1 cycler,Bacteria;Actinobacteriota;Actinobacteria;Micrococcales;Micrococcaceae;Arthrobacter,0,0,0,0,0,0,0,0,1,0,1
+Bacillus,Methanotroph,Bacteria;Firmicutes;Bacilli;Bacillales;Bacillaceae;Bacillus,1,0,0,0,0,0,0,0,1,0,1
+Bauldia,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Rhizobiales_Incertae_Sedis;Bauldia,0,0,0,0,0,0,0,0,1,0,1
+Bradyrhizobium,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Xanthobacteraceae;Bradyrhizobium,0,0,0,0,0,0,0,0,1,0,1
+Brevibacterium,Other C-1 cycler,Bacteria;Actinobacteriota;Actinobacteria;Micrococcales;Brevibacteriaceae;Brevibacterium,0,0,0,0,0,0,0,0,1,0,1
+Candidatus_Methanogranum,Methanogen,Archaea;Thermoplasmatota;Thermoplasmata;Methanomassiliicoccales;Methanomethylophilaceae;Candidatus_Methanogranum,0,0,0,0,0,1,1,1,0,0,1
+Candidatus_Methanomethylophilus,Methanogen,Archaea;Thermoplasmatota;Thermoplasmata;Methanomassiliicoccales;Methanomethylophilaceae;Candidatus_Methanomethylophilus,0,0,0,0,0,0,0,1,0,1,1
+Candidatus_Methanoperedens,Methanotroph,Archaea;Halobacterota;Methanosarcinia;Methanosarciniales;Methanoperedenaceae;Candidatus_Methanoperedens,1,0,0,0,0,0,0,0,0,0,1
+Candidatus_Methanoplasma,Methanogen,Archaea;Thermoplasmatota;Thermoplasmata;Methanomassiliicoccales;Methanomethylophilaceae;Candidatus_Methanoplasma,0,0,0,0,0,1,1,1,0,0,1
+Candidatus_Methylacidiphilum,Methanotroph,Bacteria;Verrucomicrobiota;Verrucomicrobiae;Methylacidiphilales;Methylacidiphilaceae;Candidatus_Methylacidiphilum,1,0,0,0,0,0,0,0,0,0,1
+Candidatus_Methylomirabilis,Methanotroph,Bacteria;Methylomirabilota;Methylomirabilia;Methylomirabilales;Methylomirabilaceae;Candidatus_Methylomirabilis,1,0,0,0,0,0,0,0,0,0,1
+Crenothrix,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Crenothrix,1,0,0,0,0,0,0,0,0,0,1
+Desulfosporosinus,Other C-1 cycler,Bacteria;Firmicutes;Desulfitobacteriia;Desulfitobacteriales;Desulfitobacteriaceae;Desulfosporosinus,0,0,0,0,0,0,0,0,1,0,1
+Desulfotomaculum,Other C-1 cycler,Bacteria;Firmicutes;Desulfotomaculia;Desulfotomaculales;Desulfotomaculaceae;Desulfotomaculum,0,0,0,0,0,0,0,0,1,0,1
+Desulfovibrio,Other C-1 cycler,Bacteria;Desulfobacterota;Desulfovibrionia;Desulfovibrionales;Desulfovibrionaceae;Desulfovibrio,0,0,0,0,0,0,0,0,1,0,1
+Eubacterium,Other C-1 cycler,Bacteria;Firmicutes;Clostridia;Eubacteriales;Eubacteriaceae;Eubacterium,0,0,0,0,0,0,0,0,1,0,1
+Leisingera,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhodobacterales;Rhodobacteraceae;Leisingera,0,0,0,0,0,0,0,0,0,1,1
+Marinobacterium,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Pseudomonadales;Nitrincolaceae;Marinobacterium,0,0,0,0,0,0,0,0,1,0,1
+Marinosulfonomonas,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhodobacterales;Rhodobacteraceae;Marinosulfonomonas,0,0,0,0,0,0,0,0,0,1,1
+Methanimicrococcus,Methanogen,Archaea;Halobacterota;Methanosarcinia;Methanosarciniales;Methanosarcinaceae;Methanimicrococcus,0,0,0,0,0,1,1,1,0,0,1
+Methanobacterium,Methanogen,Archaea;Euryarchaeota;Methanobacteria;Methanobacteriales;Methanobacteriaceae;Methanobacterium,0,0,0,1,1,1,1,1,1,0,1
+Methanobrevibacter,Methanogen,Archaea;Euryarchaeota;Methanobacteria;Methanobacteriales;Methanobacteriaceae;Methanobrevibacter,0,0,0,0,1,0,1,1,0,0,1
+Methanocalculus,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanocorpusculaceae;Methanocalculus,0,0,0,1,1,0,1,1,0,0,1
+Methanococcoides,Methanogen,Archaea;Halobacterota;Methanosarcinia;Methanosarciniales;Methanosarcinaceae;Methanococcoides,0,0,0,0,0,0,0,1,1,0,1
+Methanococcus,Methanogen,Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcaceae;Methanococcus,0,0,0,1,0,0,0,1,0,0,1
+Methanocorpusculum,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanocorpusculaceae;Methanocorpusculum,0,0,0,0,1,0,1,1,0,0,1
+Methanoculleus,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanomicrobiaceae;Methanoculleus,0,0,0,1,1,0,1,1,0,0,1
+Methanofollis,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanomicrobiaceae;Methanofollis,0,0,0,1,1,0,1,1,0,0,1
+Methanolacinia,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanomicrobiaceae;Methanolacinia,0,0,0,0,1,0,1,1,0,0,1
+Methanolinea,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanoregulaceae;Methanolinea,0,0,0,1,1,0,1,1,0,0,1
+Methanomassiliicoccus,Methanogen,Archaea;Thermoplasmatota;Thermoplasmata;Methanomassiliicoccales;Methanomassiliicoccaceae;Methanomassiliicoccus,0,0,0,0,0,1,1,1,0,1,1
+Methanomicrobium,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanomicrobiaceae;Methanomicrobium,0,0,0,1,0,0,0,1,0,0,1
+Methanoplanus,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanomicrobiaceae;Methanoplanus,0,0,0,1,1,0,1,1,0,0,1
+Methanoregula,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanoregulaceae;Methanoregula,0,0,0,0,1,0,1,1,0,0,1
+Methanosarcina,Methanogen,Archaea;Halobacterota;Methanosarcinia;Methanosarciniales;Methanosarcinaceae;Methanosarcina,0,1,0,0,1,0,1,1,0,0,1
+Methanosphaera,Methanogen,Archaea;Euryarchaeota;Methanobacteria;Methanobacteriales;Methanobacteriaceae;Methanosphaera,0,0,0,0,0,1,1,1,0,0,1
+Methanospirillum,Methanogen,Archaea;Halobacterota;Methanomicrobia;Methanomicrobiales;Methanospirillaceae;Methanospirillum,0,0,0,1,1,0,1,1,0,0,1
+Methanothermobacter,Methanogen,Archaea;Euryarchaeota;Methanobacteria;Methanobacteriales;Methanothermobacteriaceae;Methanothermobacter,0,0,0,0,1,0,1,1,0,0,1
+Methanothermococcus,Methanogen,Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcaceae;Methanothermococcus,0,0,0,1,0,0,1,1,0,0,1
+Methanothermus,Methanogen,Archaea;Euryarchaeota;Methanobacteria;Methanobacteriales;Methanothermaceae;Methanothermus,0,0,0,0,1,0,1,1,0,0,1
+Methylarcula,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhodobacterales;Rhodobacteraceae;Methylarcula,0,0,0,0,0,0,0,0,0,1,1
+Methylibium,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Burkholderiales;Comamonadaceae;Methylibium,0,0,0,0,0,0,0,0,1,0,1
+Methylobacillus,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Burkholderiales;Methylophilaceae;Methylobacillus,0,0,0,0,0,0,0,0,1,0,1
+Methylobacter,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylobacter,1,0,0,0,0,0,0,0,0,0,1
+Methylobacterium-Methylorubrum,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylobacterium-Methylorubrum,0,0,0,0,0,0,0,0,1,1,1
+Methylocaldum,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylococcaceae;Methylocaldum,1,0,0,0,0,0,0,0,0,0,1
+Methylocapsa,Methanotroph,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylocapsa,1,0,0,0,0,0,0,0,0,1,1
+Methylocella,Methanotroph,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylocella,1,0,0,0,0,0,0,0,0,0,1
+Methylococcus,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylococcaceae;Methylococcus,1,0,0,0,0,0,0,0,0,0,1
+Methylocystis,Methanotroph,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylocystis,1,0,0,0,0,0,0,0,0,0,1
+Methyloferula,Methanotroph,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methyloferula,1,0,0,0,0,0,0,0,0,0,1
+Methyloglobulus,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methyloglobulus,1,0,0,0,0,0,0,0,1,0,1
+Methylohalobius,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylohalobiaceae;Methylohalobius,1,0,0,0,0,0,0,0,0,0,1
+Methylohalomonas,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Granulosicoccales;Granulosicoccales_fa;Methylohalomonas,0,0,0,0,0,0,0,0,1,0,1
+Methylomarinum,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylomarinum,1,0,0,0,0,0,0,0,0,0,1
+Methylomicrobium,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylomicrobium,1,0,0,0,0,0,0,0,0,0,1
+Methylomonas,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylomonas,1,0,0,0,0,0,0,0,1,0,1
+Methylonatrum,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Nitrococcales;Nitrococcales_Incertae_Sedis;Methylonatrum,0,0,0,0,0,0,0,0,1,0,1
+Methylophaga,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Nitrosococcales;Methylophagaceae;Methylophaga,0,0,0,0,0,0,0,0,1,0,1
+Methylophilus,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Burkholderiales;Methylophilaceae;Methylophilus,0,0,0,0,0,0,0,0,1,0,1
+Methylosarcina,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylosarcina,1,0,0,0,0,0,0,0,0,0,1
+Methylosinus,Methanotroph,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylosinus,1,0,0,0,0,0,0,0,0,0,1
+Methylosoma,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylosoma,1,0,0,0,0,0,0,0,0,0,1
+Methyloterrigena,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Devosiaceae;Methyloterrigena,0,0,0,0,0,0,0,0,1,0,1
+Methylothermus,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylohalobiaceae;Methylothermus,1,0,0,0,0,0,0,0,0,0,1
+Methylovirgula,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Beijerinckiaceae;Methylovirgula,0,0,0,0,0,0,0,0,1,0,1
+Methylovulum,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Methylococcales;Methylomonadaceae;Methylovulum,1,0,0,0,0,0,0,0,0,0,1
+Microvirgula,Other C-1 cycler,Bacteria;Proteobacteria;Gammaproteobacteria;Burkholderiales;Aquaspirillaceae;Microvirgula,0,0,0,0,0,0,0,0,1,0,1
+Moorella,Other C-1 cycler,Bacteria;Firmicutes;Moorellia;Moorellales;Moorellaceae;Moorella,0,0,0,0,0,0,0,0,1,0,1
+Mycobacterium,Other C-1 cycler,Bacteria;Actinobacteriota;Actinobacteria;Corynebacteriales;Mycobacteriaceae;Mycobacterium,0,0,0,0,0,0,0,0,1,0,1
+Paracoccus,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhodobacterales;Rhodobacteraceae;Paracoccus,0,0,0,0,0,0,0,0,1,1,1
+Pseudomonas,Methanotroph,Bacteria;Proteobacteria;Gammaproteobacteria;Pseudomonadales;Pseudomonadaceae;Pseudomonas,1,0,0,0,0,0,0,0,1,0,1
+Sporomusa,Other C-1 cycler,Bacteria;Firmicutes;Negativicutes;Veillonellales-Selenomonadales;Sporomusaceae;Sporomusa,0,0,0,0,0,0,0,0,1,0,1
+Starkeya,Other C-1 cycler,Bacteria;Proteobacteria;Alphaproteobacteria;Rhizobiales;Xanthobacteraceae;Starkeya,0,0,0,0,0,0,0,0,1,0,1

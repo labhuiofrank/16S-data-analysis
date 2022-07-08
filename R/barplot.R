@@ -58,7 +58,7 @@ get_taxonomic_palette <- function(taxa_names) {
 #' @examples
 #' taxa_barplot(ps, x="sample_type", taxrank="Phylum", min_relabund=0.01)
 #' taxa_barplot(ps, x="sample_type", y="relabund", taxrank="Phylum", rows="Season")
-taxa_barplot <- function(ps, x=NULL, y="Abundance", taxrank="Class",
+taxa_barplot <- function(ps, x=NULL, y="relabund", taxrank="Class",
                          rows=NULL, cols=NULL, min_relabund=0.01,
                          return_df=FALSE, nrows_legend=20) {
     # Group taxa by {tax_rank}
