@@ -180,7 +180,7 @@ find_pipeline_files <- function(folder, otu_id=100, meta_file=NULL) {
 #' @examples
 #' load_cmaiki("pipeline-2022-07-9/", )
 #' load_cmaiki(abund_file="OTUs.100.rep.count_table", tax_file="OTUs.100.cons.taxonomy", meta_file="proj/metadata.csv")
-load_cmaiki <- function(folder=NULL, abund_file=NULL, tax_file=NULL, meta_file=NULL, tree_file=NULL, otu_id=100){
+load_cmaiki <- function(folder=NULL, otu_id=100, abund_file=NULL, tax_file=NULL, meta_file=NULL, tree_file=NULL){
 
     if(is.null(folder) && (is.null(abund_file) | is.null(tax_file) | is.null(meta_file))) {
         stop("You must either provide the folder or all the individual files")
