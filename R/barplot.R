@@ -1,12 +1,13 @@
 #' Palette generator for taxonomic data
 #' Uses database in github database repository
 #'
-#' @param taxa_names Vector of taxa names
+#' @param taxa_names Vector of taxa names (factor)
 #' @return named vector, values are colors in HEX and names are taxa names
 #' @export
 #' @examples
 #' get_taxonomic_palette(c("Alphaproteobacteria", "Zetaproteobacteria", "Other"))
 get_taxonomic_palette <- function(taxa_names) {
+    stopifnot(is.factor(taxa_names))
     taxa_names <- levels(taxa_names)
     db_path <- system.file("extdata", "taxa_palette.csv", package="labhuiofrank.16S")
     ## tibble::deframe converts a 2 column dataframe to named vector
@@ -31,7 +32,7 @@ get_taxonomic_palette <- function(taxa_names) {
     }
 
     colors <- c(custom_pal[is_in_taxa], remaining_colors)
-    return(colors)
+    return(colors[taxa_names])
 }
 
 #' Taxonomic stacked barplot of phyloseq object.
