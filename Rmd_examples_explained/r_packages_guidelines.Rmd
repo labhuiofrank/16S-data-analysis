@@ -1,0 +1,62 @@
+---
+title: "Guidelines for managing R packages"
+author: "Cedric Arisdakessian"
+date: '2022-07-22'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document is heavily inspired by: <https://tinyheero.github.io/jekyll/update/2015/07/26/making-your-first-R-package.html>
+
+# Pre-requisites
+
+-   GitHub access to repository
+-   install devtools and roxygen
+-   (optional) install usehat if you want to build the vignette
+
+# Repository structure for an R package
+
+Mandatory:
+
+-   `R/` folder for the code. Only write functions or R Objects (for more advanced R users)
+-   DESCRIPTION file
+-   NAMESPACE file (automatically generated or updated each time `devtools::document()` is called
+
+Optional:
+
+-   README.md file
+-   External data
+
+Note that once you build the package, a `man/` folder (short for manual) is automatically generated with all the package documentation.
+
+In the case of the labhuiofrank package, all files are present in the github repository (<https://github.com/labhuiofrank/16S-data-analysis>). External data is available in the `inst/extdata` folder.
+
+## DESCRIPTION FILE
+
+This file provides all the metadata for the package, including its name, title, version, authors, and most importantly, package dependencies.
+
+# Writing functions
+
+-   Documentation syntax
+
+```{r}
+devtools::document()
+usethat::use_vignette("introduction")
+```
+
+# Include data in the package
+
+In general, you should limit the amount of raw data you include in the package, especially if it's voluminous. GitHub might even prevent you to upload files larger than a few MB. However, it can be useful to include so small database or test data directly available upon loading the package.
+
+To include data, you just need to add it to the `inst/extdata` folder in the GitHub repository. It will be available after you reinstall the package.
+
+# If nou need to start a new package
+
+```{r}
+devtools::create("package_name")
+```
+
+Although it's usually recommended, note that the github repository name doesn't need to match the package name.

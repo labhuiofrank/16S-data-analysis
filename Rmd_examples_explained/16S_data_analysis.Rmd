@@ -1,0 +1,204 @@
+---
+title: "SOP for 16S data analysis"
+author: "Cedric Arisdakessian"
+date: '2022-07-21'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# SOP: Data analysis
+
+This document provide some sample code when analyzing 16S data for your own projects and provide some example code in the case of 16S data analysis.
+
+## The labhuiofrank package
+
+The labhuiofrank package is a package that wraps around the `phyloseq` package to provide higher-level functions for 16S data analysis. More specifically, it provides convenient functions for:
+
+-   Loading files from the C-MAIKI/MetaFlow\|mics pipelines into phyloseq
+-   Reshaping and plotting data for different kind of analyses
+-   Subsetting data with various function groups
+
+### Pre-requisites
+
+-   Your project's data and metadata
+-   R (tested for version 4.x)
+-   labhuiofrank package installed
+
+### Installing the labhuiofrank.16S R package
+
+In R (or RStudio), run the following commands:
+
+```{r install}
+# Install the remotes package if not already installed
+# install.packages("remotes")
+# Install labhuiofrank package
+remotes::install_github("labhuiofrank/16S-data-analysis")
+```
+
+You should be able to load the package with:
+
+```{r test load}
+library(labhuiofrank.16S)
+```
+
+## Analysis workflow
+
+Common analysis workflow usually require the following steps:
+
+1)  **Data loading**: Load the data into R
+2)  **Preprocessing**: It consists in filtering, formatting and normalizing our data to fit the needs of our model/analysis. Thus, it is analysis-dependent and should not be overlooked. For example, beta-diversity analyses usually require to normalize for library size differences which is not strictly required for alpha diversity.
+3)  **Analysis**: The type of analysis you want to perform. Could be alpha/beta diversity, differential abundance analysis, permanova tests and others.
+4)  **Plotting**: Graphical representation of your analysis to highlight your findings in a concise way. (boxplot/barplots/scatterplots/heatmaps...)
+
+In the following sections, we show how each of these steps can be done in R. Note that the functions in this section are prepended with the package name followed by `::` for clarity, but you can omit it if you load the package in R (using the `library()` function).
+
+### 1. Data loading
+
+To load your data into phyloseq, you need the path to the pipeline output folder and the OTU identity threshold you want to use (default: 100 for ASVs). If your metadata file is the only .csv file in your pipeline output folder, load_cmaiki should find it for you. Otherwise, you will need to specify its location using the `meta_file=` argument.
+
+```{r}
+input_dir <- "../src/data/pipeline-outputs"
+mb <- labhuiofrank.16S:load_cmaiki(input_dir, meta_file=meta_file, otu_id=99)
+```
+
+### 2. Data preprocessing
+
+This step can be done exclusively using phyloseq. See their [tutorials](https://joey711.github.io/phyloseq/) for more details. Here are some useful functions you should know.
+
+### Sample grouping
+
+Although phyloseq has the `merge_samples()` function available, we recommend using the version from `speedyseq` (an extension of phyloseq) called `merge_samples2()`. The `speedyseq` package is available on GitHub only and can be installed with the `remotes` packages:
+
+``` r
+remotes::install_github("mikemc/speedyseq")
+```
+
+You can group samples based on a categorical column of the metadata file, and samples from each category will be summed together. The function has extra arguments to fine-tune the behaviour and choose how to combine samples together. See [documentation](https://rdrr.io/github/mikemc/speedyseq/man/merge_samples2.html) for more details.
+
+This function only works for a single column. If you want to merging to be done for combination of columns, you will need to create one first (see below).
+
+``` r
+# one column
+mb_grouped <- speedyseq::merge_samples2(mb, site)
+# two columns
+## get the columns we're interested in
+sites <- phyloseq::get_variable(mb, "site")
+seasons <- phyloseq::get_variable(mb, "season")
+## add a new column to the metadata
+## with the two columns combined (here with: {site}_{season})
+phyloseq::sample_data(mb)$site_and_season <- sprintf("%s_%s", sites, seasons)
+## back to the case with one column
+mb_grouped <- speedyseq::merge_samples2(mb, site_and_season)
+```
+
+#### Sample filtering
+
+Subset samples based on a column in the metadata file
+
+``` r
+# single condition
+mb_subset <- phyloseq::subset_samples(mb, island=="Oahu")
+# combine multiple conditions
+mb_subset <- phyloseq::subset_samples(mb, Salinity < 1 | Temperature < 10) 
+mb_subset <- phyloseq::subset_samples(mb, Salinity < 1 & sample_type %in% c("Mudd", "Water"))
+```
+
+Subset samples based on the abundance data
+
+``` r
+# Discard samples with a total abundance < 1000
+mb_subset <- phyloseq::subset_samples(mb, phyloseq::sample_sums(mb) > 1000)
+```
+
+Important note: if your filtering condition is so stringent that all of your data is filtered out, phyloseq will return the following error:
+
+    Error in validObject(.Object) : 
+      invalid class “sample_data” object: Sample Data must have non-zero dimensions.
+
+#### OTU filtering
+
+Based on the taxonomy table
+
+```{r}
+# Select a specific phylum
+mb_subset <- phyloseq::subset_taxa(mb, Phylum == "Proteobacteria")
+# Select a specific genus
+mb_subset <- phyloseq::subset_taxa(mb, genus == "Staphylococcus")
+```
+
+Based on the abundance data
+
+```{r}
+# Discard OTUs with null total abundance
+mb_subset <- phyloseq::subset_taxa(mb, taxa_sums(mb) > 0)
+
+# filter_taxa provides more options to filter. You need to provide a function that takes as input the OTU abundance across sample and return TRUE if you want to keep it.
+# keep OTUs with mean abundance > 1
+mb_subset <- phyloseq::filter_taxa(mb, function(x) mean(x) > 1)
+# keep OTUs that appear in at least 2 samples
+# note that (x > 0) evals to TRUE (=1) if the OTU abundance in the sample is greater than 0 and FALSE(=0) otherwise. Thus the sum of this vector is the number of samples in which the OTU occurs.
+mb_subset <- phyloseq::filter_taxa(mb, function(x) sum(x > 0) > 2) 
+```
+
+Important note: if your filtering condition is so stringent that all of your data is filtered out, phyloseq will return the following error:
+
+    Error in dimnames(x) <- dn : 
+    length of 'dimnames' [1] not equal to array extent
+
+#### Data normalization
+
+-   Subsampling
+
+```{r}
+# Random subsampling to 2000 reads/sample and use a random seed of 42 (or any number really) for reproducibility.
+mb_normalized <- phyloseq::rarefy_even_depth(mb, 2000, replace=FALSE, rngseed=42)
+```
+
+-   Convert counts to proportions (also refered to as relative abundance or compositional data)
+
+```{r}
+# with phyloseq
+mb_relabund <- phyloseq::transform_sample_counts(mb, function(x) x/sum(x))
+# with the microbiome package
+mb_relabund <- microbiome::transform(mb, "compositional")
+```
+
+-   Convert counts to z-scores (sometimes interesting for visualization)
+
+```{r}
+# z-score at the OTU level without log transform
+mb_relabund <- microbiome::transform(mb, "Z", "OTU", log=FALSE)
+```
+
+### Data analysis and visualization
+
+#### Alpha diversity
+
+```{r}
+taxa_barplot(mb, x="sample_type", y="relabund", taxrank="Phylum")
+taxa_barplot(mb, x="sample_type", y="relabund", taxrank="Phylum", rows="Year", cols="Month")
+```
+
+#### Beta diversity
+
+```{r}
+ord <- labhuiofrank.16S::run_ordination(mb, method="CCA")
+labhuiofrank.16S::plot_ordination_with_arrows(ord$data, ord$arrows)
+```
+
+#### Permanova testing
+
+```{r}
+labhuiofrank.16S::run_adonis(mb, "Seasonal")
+```
+
+#### Differential abundance testing
+
+```{r}
+model <- labhuiofrank.16S::run_deseq2(mb, ~ Year, pseudocount=1)
+contrasts <- cbind(c(2020, 2021), c(2020, 2022))
+result_for_contrasts <- labhuiofrank.16S::get_results_for_contrasts(model, "Season", contrasts)
+```

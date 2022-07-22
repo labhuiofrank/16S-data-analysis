@@ -6,7 +6,7 @@
 #' @param abort whether to abort if the extension
 #' doesn't match
 #'
-check_ext <- function(file, expected, abort=FALSE) {
+check_file_extension <- function(file, expected, abort=FALSE) {
     pattern <- sprintf("%s$", expected)
     if(!grepl(pattern, file)) {
         msg <- sprintf(
@@ -57,7 +57,7 @@ find_file <- function(folder, pattern, abort=FALSE, warning=TRUE) {
 #' @examples
 #' load_shared("abundance.100.shared")
 load_shared <- function(file) {
-    check_ext(file, "shared", abort=TRUE)
+    check_file_extension(file, "shared", abort=TRUE)
     abundance <- data.table::fread(file, drop=c("label", "numOtus"), header=T, blank.lines.skip=T) %>%
         tibble::tibble() %>%
         tibble::column_to_rownames("Group")
@@ -71,7 +71,7 @@ load_shared <- function(file) {
 #' @examples
 #' load_count_table("OTUs.100.rep.count_table")
 load_count_table <- function(file) {
-    check_ext(file, "count_table", abort=TRUE)
+    check_file_extension(file, "count_table", abort=TRUE)
     abundance <- data.table::fread(file, drop=c("total"), header=T, blank.lines.skip=T) %>%
         tibble::tibble() %>%
         tibble::column_to_rownames("Representative_Sequence")
@@ -104,7 +104,7 @@ load_abund <- function(file) {
 #' @examples
 #' load_constaxonomy("annotations.100.cons.taxonomy")
 load_constaxonomy <- function(file) {
-    check_ext(file, "taxonomy", abort=FALSE)
+    check_file_extension(file, "taxonomy", abort=FALSE)
     tax_ranks <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
     taxonomy <- read.table(file, header=T, row.names=1, sep="\t") %>%
         tidyr::separate(Taxonomy, tax_ranks, sep=";") %>%
@@ -120,7 +120,7 @@ load_constaxonomy <- function(file) {
 #' @examples
 #' load_metadata("metadata.csv")
 load_metadata <- function(file) {
-    check_ext(file, "[ct]sv", abort=FALSE)
+    check_file_extension(file, "[ct]sv", abort=FALSE)
 
     metadata <- data.table::fread(file, header=T, blank.lines.skip=T)  %>% tibble::tibble()
     metadata <- metadata %>% 
@@ -206,7 +206,7 @@ load_cmaiki <- function(folder=NULL, otu_id=100, abund_file=NULL, tax_file=NULL,
     )
     # Add tree if provided
     if(!is.null(tree_file)) {
-        check_ext(tree_file, "nwk", abort=FALSE)
+        check_file_extension(tree_file, "nwk", abort=FALSE)
         ps_data <- append(ps_data, phyloseq::read_tree(tree_file))
     }
     # Compile into phyloseq object

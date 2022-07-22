@@ -13,13 +13,13 @@ This is an R Markdown document that describes what the functions in cedrics micr
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-# **<span style="color:green">util.R</span>** - Loading the microbiome data into phyloseq
+# [**util.R**]{style="color:green"} - Loading the microbiome data into phyloseq
 
-Cedric developed a simple script for loading the microbiome data into phyloseq, it includes path to all of the necessary files (Need to download first the labhuiofrank helper scripts in: https://github.com/labhuiofrank/16S-data-analysis.git)
+Cedric developed a simple script for loading the microbiome data into phyloseq, it includes path to all of the necessary files (Need to download first the labhuiofrank helper scripts in: <https://github.com/labhuiofrank/16S-data-analysis.git>)
 
 The source command is going to run another r script called loading.R, on your lab mac site this file is located at "bootcamp-16S/labhuiofrank-16S-util/R/loading.R" The loading.R file is a set of functions (load_shared, load_counttable, load_constaxonmy) that you will need to format the data into a phyloseq object.
 
-**If you change the name or location of your data or your metadata you will need to modify this code and make sure it goes to the appropriate file path** 
+**If you change the name or location of your data or your metadata you will need to modify this code and make sure it goes to the appropriate file path**
 
 ### You do not need to run this util.R code it will run automatically with the next section
 
@@ -65,9 +65,10 @@ options(ggplot2.discrete.colour=RColorBrewer::brewer.pal(9, "Set1"))
 options(ggplot2.discrete.fill=RColorBrewer::brewer.pal(9, "Set1"))
 ```
 
+# [**alpha_diversity.R**]{style="color:green"}- Alpha diversity
 
-#  **<span style="color:green"> alpha_diversity.R </span>**- Alpha diversity
-The following code is run in the alpha_diversity file.  Iʻve chunked it up here so I can explain what is going on.
+The following code is run in the alpha_diversity file. Iʻve chunked it up here so I can explain what is going on.
+
 ```{r, echo=TRUE}
 #source("bootcamp-16S/util.R")
 library("ggplot2")
@@ -78,14 +79,15 @@ library("speedyseq") # phyloseq extension
 target <- "Ahupuaa_Location"
 ```
 
-## =====================##
-##     Load our data    ##
-## =====================##
+## =====================
 
-First you want to load all our data into a phyloseq object.  
+## Load our data
 
-Cedric made a really easy function to do this with load_microbiome(), it formats all the data files and puts them here. 
-To get a better feel for the data we have you can just type the varible "mb" and it will tell you how many taxa (a.k.a ASVs - Amplicon Sequence Variants) in the number of samples you have.  It will also tell you how many columns (a.k.a sample variables) you have in your metadata file. In the case of our Kailua data mb has 33637 ASVs in 193 samples and there are 44 sample variables in our metadata file. 
+## =====================
+
+First you want to load all our data into a phyloseq object.
+
+Cedric made a really easy function to do this with load_microbiome(), it formats all the data files and puts them here. To get a better feel for the data we have you can just type the varible "mb" and it will tell you how many taxa (a.k.a ASVs - Amplicon Sequence Variants) in the number of samples you have. It will also tell you how many columns (a.k.a sample variables) you have in your metadata file. In the case of our Kailua data mb has 33637 ASVs in 193 samples and there are 44 sample variables in our metadata file.
 
 ```{r, echo=TRUE}
 
@@ -94,11 +96,13 @@ mb
 
 ```
 
-## =====================##
-##    Preprocess data   ##
-## =====================##
+## =====================
 
-Before we do any further analysis we need to process the data.  This will help us to merge or subset our data.  
+## Preprocess data
+
+## =====================
+
+Before we do any further analysis we need to process the data. This will help us to merge or subset our data.
 
 Merging data will pool your data set into a smaller number of samples - for example if you have 15 samples which are 3 replicates of 2500 sequences from 5 sites, if you merge by site you will now have 5 samples each with 7500 sequences.
 
@@ -120,22 +124,24 @@ mb_path <- subset_taxa(mb, Genus %in% rownames(pathogens))
 mb_path
 ```
 
-**<span style="color:green"> Just by looking at the summary of mb_path you can see that there are 931 ASVs of putative human pathogens in the 193 samples from Kailua </span>**
+[**Just by looking at the summary of mb_path you can see that there are 931 ASVs of putative human pathogens in the 193 samples from Kailua**]{style="color:green"}
 
+## =================================
 
-## =================================##
-## Display in barplot with phyloseq ##
-## =================================##
+## Display in barplot with phyloseq
+
+## =================================
+
 helpful code for presentations or reports
 
-## **<span style="color:green"> theme_presentation.R </span>**
+## [**theme_presentation.R**]{style="color:green"}
+
 ```{r, echo=TRUE}
 #code for presentations/reports
 source("/Users/klfrank/Dropbox/Post-Grad/Bioinformatics/R-Microbiome-Statistics/Functions/Function_Scripts/theme_presentation.R")
 ```
 
-
-This will prep and display data based on the target that you are interested, the code merges the sample based on the target of interest and then transforms the data to relative abundance.  To simplify the bar graph we will only keep the ASVs that make up at least 1% of the total abundance. Then we plot the bar graph - in the fill position of plot_bar you can change to anything from Kindgom, Phylum, Class, Order, Family, Genus
+This will prep and display data based on the target that you are interested, the code merges the sample based on the target of interest and then transforms the data to relative abundance. To simplify the bar graph we will only keep the ASVs that make up at least 1% of the total abundance. Then we plot the bar graph - in the fill position of plot_bar you can change to anything from Kindgom, Phylum, Class, Order, Family, Genus
 
 ```{r, echo=TRUE}
 # Global variable
@@ -156,10 +162,8 @@ taxa_bargraph
 taxa_bargraph+theme_report(tsize=16)
 ```
 
+Here is a different function to plot your taxa_barplots, instead of only keeping ASVs that are at least 1% of the total abundance, this one groups any ASVs that are less than 1% of the abundance as other \## \*\* [taxa_barplot.R]{style="color:green"}\*\*
 
-
-Here is a different function to plot your taxa_barplots, instead of only keeping ASVs that are at least 1% of the total abundance, this one groups any ASVs that are less than 1% of the abundance as other
-## ** <span style="color:green"> taxa_barplot.R </span>**
 ```{r, echo=TRUE}
 source("/Users/klfrank/Dropbox/Post-Grad/Bioinformatics/R-Microbiome-Statistics/Functions/Function_Scripts/taxa_barplot.R")
 
@@ -167,12 +171,11 @@ taxa_bp <- taxa_barplot(mb_water,"Class")
 taxa_bp + theme_report()
 ```
 
+Lets say you wanted to look at the abundance of just a subset, like human pathogens. This will work with any subset file, you just need a list of taxa at the genus level
 
-Lets say you wanted to look at the abundance of just a subset, like human pathogens.  This will work with any subset file, you just need a list of taxa at the genus level
+## [**Consistent_color_pallete.R**]{style="color:green"}
 
-## **<span style="color:green"> Consistent_color_pallete.R </span>**
-
-## **<span style="color:green"> subset_barplot.R </span>**
+## [**subset_barplot.R**]{style="color:green"}
 
 ```{r, echo=TRUE}
 #set color paletes
@@ -183,17 +186,19 @@ path.bar <- subset_barplot(mg=mb_water, tax_lvl="Genus", groups=target, thresh=1
 path.bar+ theme_report(tsize=16)+ggtitle("Relative Abundance of Putative Human Pathogens in Kailua")
 ```
 
+## ========================
 
-## ========================##
-## Alpha diversity metrics ##
-## ========================##
-Alpha diversity (α-diversity) is defined as the mean diversity of species in different sites or habitats within a local scale. 
+## Alpha diversity metrics
 
-Species richness: Chao1 Index (chao) is an estimator based on abundance; thus, it requires data that refers to the abundance of individual samples belonging to a certain class. Higher chao ~ higher diversity.
+## ========================
+
+Alpha diversity (α-diversity) is defined as the mean diversity of species in different sites or habitats within a local scale.
+
+Species richness: Chao1 Index (chao) is an estimator based on abundance; thus, it requires data that refers to the abundance of individual samples belonging to a certain class. Higher chao \~ higher diversity.
 
 Community evenness: Refers to how close in numbers each species in an environment is
 
-Community Diversity indices provide more information about community composition than simply species richness as they also take the relative abundances of different species into account providing important information about rarity and commonness of species in a community. The Shannon Index (shannon) takes into account the number of species living in a habitat (richness) and their relative abundance (evenness).Lower shannon ~ higher diversity. An index value of 1 means that all groups have the same frequency.
+Community Diversity indices provide more information about community composition than simply species richness as they also take the relative abundances of different species into account providing important information about rarity and commonness of species in a community. The Shannon Index (shannon) takes into account the number of species living in a habitat (richness) and their relative abundance (evenness).Lower shannon \~ higher diversity. An index value of 1 means that all groups have the same frequency.
 
 InvSimpson parameter is preferred to other measures of alpha-diversity because it is an indication of the richness in a community with uniform evenness that would have the same level of diversity. So while measures such as the shannon index are somewhat abstract, the inverse of the Simpson index has some biological interpretation. Other advantages of the Simpson-based metrics are that they do not tend to be as affected by sampling effort as the shannon index.
 
@@ -212,9 +217,7 @@ plot_richness(mb, x=target, color=target, measures=indices) +
   scale_fill_brewer(palette="Set1") + scale_color_brewer(palette="Set1")
 ```
 
-
-
-# **<span style="color:green"> beta_diversity.R </span>**
+# [**beta_diversity.R**]{style="color:green"}
 
 This is a seperate file that you can run to determine your beta_diversity; the front matter is very similar to the other file, and again you can subset/merge your samples in anyway you need
 
@@ -234,14 +237,15 @@ target <- "Ahupuaa_Location"
 mb <- load_microbiome()
 ```
 
+## ======================
 
-## ======================##
-##  Normalize samples    ##
-## ======================##
+## Normalize samples
+
+## ======================
 
 Now we want to subsample for beta-diversity, this is REALLY REALLY important because we need all samples to have the same number of reads in order to analyze
 
-Beta diversity quantifies the number of different communities in the region. So it’s clear that beta diversity does not only account for the relationship between local and regional diversity, but also informs about the degree of differentiation among biological communities.
+Beta diversity quantifies the number of different communities in the region. So it's clear that beta diversity does not only account for the relationship between local and regional diversity, but also informs about the degree of differentiation among biological communities.
 
 ```{r, echo=TRUE}
 # Compute sample counts
@@ -265,12 +269,13 @@ mb_subsampled <- rarefy_even_depth(mb_water, threshold, rngseed=123, replace=FAL
 mb_subsampled
 ```
 
+## ==============================
 
-## ==============================##
-## Unsupervised ordination: NMDS ##
-## ==============================##
+## Unsupervised ordination: NMDS
 
-This will squish your data into 2D.  You will get the best results if you subset the data first into only what you are interested in looking at.
+## ==============================
+
+This will squish your data into 2D. You will get the best results if you subset the data first into only what you are interested in looking at.
 
 ```{r, echo=TRUE}
 nmds <- ordinate(mb_subsampled, method="NMDS", trymax=300, parallel=8)
@@ -281,11 +286,9 @@ plot_ordination(mb_subsampled, nmds, color=target) +
                alpha=0.1, show.legend=FALSE, level=0.5, geom="polygon") 
 ```
 
-
-
 ### Are the groupings above significant?
 
-Here we run a PERMANOVA adonis test to see if the groupings above are significant.  **<span style="color:green">They are because p = 0.0001.  The groupings describe 17.4% of the variability in the data (r2). Moreover each site is significantly different than eachother by pairwise PERMANOVA tests</span>**
+Here we run a PERMANOVA adonis test to see if the groupings above are significant. [**They are because p = 0.0001. The groupings describe 17.4% of the variability in the data (r2). Moreover each site is significantly different than eachother by pairwise PERMANOVA tests**]{style="color:green"}
 
 ```{r message=FALSE}
 dists <- phyloseq::distance(mb_subsampled, method="bray")
@@ -307,9 +310,13 @@ cat("
 
 pairwiseAdonis::pairwise.adonis2(dists ~ Ahupuaa_Location, data=meta, perm=9999)
 ```
-## ============================##
-## Supervised ordination: CCA  ##
-## ============================##
+
+## ============================
+
+## Supervised ordination: CCA
+
+## ============================
+
 Canonical correlation analysis is used to identify and measure the associations among the microbial community structure, and other variables of interest like geochemistry. Its kinda like doing an ordnation for regressions.
 
 ```{r eval=FALSE, include=FALSE}
@@ -329,4 +336,3 @@ cca2 <- run_ordination(mb_subsampled, "CCA", formula=~ DO_percent + Temp_C + Sal
 plot_ordination_with_arrows(cca2$data, cca2$arrows, "CCA1", "CCA2", fill=target) 
 
 ```
-

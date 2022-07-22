@@ -38,10 +38,9 @@ run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
 #' @param ref reference level for variable
 #' @param level other level for variable
 #' @return result dataframe
-#' @export
 #' @examples
-#' get_results_for_contrast(diagdds, "Group", "A", "B")
-get_results_for_contrast <- function(diagdds, factor_name, ref, level) {
+#' get_results_for_single_contrast(diagdds, "Group", "A", "B")
+get_results_for_single_contrast <- function(diagdds, factor_name, ref, level) {
   DESeq2::results(diagdds, contrast=c(factor_name, level, ref))  %>% data.frame %>%
     dplyr::mutate(enriched_in=ifelse(log2FoldChange < 0, ref, level), 
                   depleted_in=ifelse(log2FoldChange > 0, ref, level)) %>%
@@ -60,8 +59,8 @@ get_results_for_contrast <- function(diagdds, factor_name, ref, level) {
 #' @return result dataframe
 #' @export
 #' @examples
-#' get_results_for_all_results(diagdds, "Group", "A", c("B", "C"))
-get_results_for_all_contrasts <- function(diagdds, variable, comparisons) {
+#' get_results_for_contrasts(diagdds, "Group", c("B", "C"))
+get_results_for_contrasts <- function(diagdds, variable, comparisons) {
     var_order <- unique(c(comparisons))
 
     all_results <- list()
