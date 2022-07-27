@@ -14,36 +14,65 @@ This document is heavily inspired by: <https://tinyheero.github.io/jekyll/update
 # Pre-requisites
 
 -   GitHub access to repository
--   install devtools and roxygen
--   (optional) install usehat if you want to build the vignette
+-   Install `devtools` and `roxygen`
+-   (optional) install `usehat` if you want to build the vignette
 
 # Repository structure for an R package
+
+Your github repository must contains the following files or folders:
 
 Mandatory:
 
 -   `R/` folder for the code. Only write functions or R Objects (for more advanced R users)
--   DESCRIPTION file
+-   DESCRIPTION file: project metadata. It is generated if you create your package with `devtools::create("package_name")`
 -   NAMESPACE file (automatically generated or updated each time `devtools::document()` is called
 
 Optional:
 
 -   README.md file
--   External data
+-   External data in inst/extdata folder
 
 Note that once you build the package, a `man/` folder (short for manual) is automatically generated with all the package documentation.
 
-In the case of the labhuiofrank package, all files are present in the github repository (<https://github.com/labhuiofrank/16S-data-analysis>). External data is available in the `inst/extdata` folder.
+In the case of the labhuiofrank package, all of these files are present in the github repository (<https://github.com/labhuiofrank/16S-data-analysis>). External data is available in the `inst/extdata` folder.
 
 ## DESCRIPTION FILE
 
-This file provides all the metadata for the package, including its name, title, version, authors, and most importantly, package dependencies.
+This file contains the package metadata, including its name, title, version, authors, and most importantly, its dependencies. Many fields are optional (e.g. the licence).
+
+There are two types of package dependencies: the mandatory ones (in the "Imports" category) and optional (in the "Suggests" category).
+
+See the labhuiofrank.16S [DESCRIPTION](https://github.com/labhuiofrank/16S-data-analysis/blob/master/DESCRIPTION) file for an example.
 
 # Writing functions
 
--   Documentation syntax
+First, write your R function. For example:
 
 ```{r}
+greet <- function(first_name, last_name) {
+  msg <- sprintf("Hello %s %s", first_name, last_name)
+  return(msg)
+}
+```
+
+All the documentation about our function is written before its definition, and start with the 2 characters `#'` (pound + single quote). The documentation is split into different categories, such as description, parameters, return values, etc.. Depending on the category, the syntax of a documentation entry can be:
+
+A. `#' {text}` \
+B. `#' @{flag} {text}`\
+C. `#' @{flag} {value} {text}`
+
+In fact, you don't have to provide any documentation to your function. However, I would highly recommend to provide the following ones:
+
+1.  Description of the function (syntax A). If the description is long, it's good to break it into multiple lines (each line still needs to start with `#'` )
+2.  Description of each parameter (syntax C, flag: `@param`): The flag needs to be followed by the parameter name and its description, both separated by a single space.
+3.  
+
+Once you have added your new functions, update the package with the following commands:
+
+```{r}
+# build the documentation and update the package's associated functions
 devtools::document()
+# Optional, build the vignette
 usethat::use_vignette("introduction")
 ```
 
