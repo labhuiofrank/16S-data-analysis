@@ -5,11 +5,8 @@ channels:
   - bioconda
 dependencies:
   - R >= 4.0
-  - r-tibble
-  - r-dplyr
-  - r-tidyr
-  - r-ggplot2
-  - r-data.table
-  - r-vegan
+  - r-remotes
+  - r-biocmanager
+  - r-tidyverse
   - bioconductor-phyloseq
   - bioconductor-deseq2
