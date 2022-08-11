@@ -1,8 +1,3 @@
-#' Geometric mean function for vectors with zeros
-#' @param x Vector of positive values to compute the geometric mean on
-#' @return Numeric value
-geom_mean <- function(x) exp(mean(log(x[x>0]), na.rm=TRUE))
-
 #' Wrapper around DESeq functions
 #'
 #' @param ps Phyloseq object
@@ -24,6 +19,7 @@ run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0, ...) {
 
     ## Use geometric mean for size factors if needed
     if (gm) {
+        geom_mean <- function(x) exp(mean(log(x[x>0]), na.rm=TRUE))
         geoMeans <- apply(DESeq2::counts(diagdds), 1, geom_mean)
         diagdds <- DESeq2::estimateSizeFactors(diagdds, geoMeans=geoMeans)
     }
