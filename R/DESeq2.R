@@ -12,12 +12,16 @@
 #' run_deseq2(ps, ~ Season + Group, gm=TRUE)
 #' run_deseq2(ps, ~ Season + Group, pseudocount=1)
 run_deseq2 <- function(ps, design, auto_gm=TRUE, gm=FALSE, pseudocount=0, ...) {
+    if (auto_gm && (gm || pseudocount > 0)) {
+        warning("Setting auto_gm to FALSE since one of {gm, pseudocount} has been set")
+        auto_gm = FALSE
+    }
     if (auto_gm) {
         ## Normalize if all OTUs have at least one zero
         taxa_with_zeros <- filter_taxa(ps, function(x) sum(x == 0) > 0, TRUE)
         if (ntaxa(taxa_with_zeros) == ntaxa(ps)) {
             message(
-                "All OTUs have at least one zero."
+                "All OTUs have at least one zero. ",
                 "Using geometric mean on positive values for size factor estimation"
             )
             gm = TRUE
