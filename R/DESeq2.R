@@ -2,6 +2,7 @@
 #'
 #' @param ps Phyloseq object
 #' @param design Experimental design. The last variable needs to be the experimental condition to test for
+#' @param auto_gm Whether to automatically use modified geometric mean for size factors when too many zeros are present
 #' @param gm Whether or not to use geometric mean for size factor estimation. Might be necessary if there are a lot of zero (or add pseudocount
 #' @param pseudocount Pseudocount to add to abundance table if there are too many zeros
 #' @param ... Extra arguments to pass the DESeq function
@@ -10,7 +11,14 @@
 #' @examples
 #' run_deseq2(ps, ~ Season + Group, gm=TRUE)
 #' run_deseq2(ps, ~ Season + Group, pseudocount=1)
-run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0, ...) {
+run_deseq2 <- function(ps, design, auto_gm=TRUE, gm=FALSE, pseudocount=0, ...) {
+    if (auto_gm) {
+        ## Normalize if all OTUs have at least one zero
+        taxa_with_zeros <- filter_taxa(ps, function(x) sum(x == 0) > 0, TRUE)
+        if (ntaxa(taxa_with_zeros) == ntaxa(ps)) {
+            gm = TRUE
+        }
+    }
     ## Add pseudocount if needed
     phyloseq::otu_table(ps) <- phyloseq::otu_table(ps) + pseudocount
 
