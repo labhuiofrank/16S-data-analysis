@@ -16,6 +16,10 @@ run_deseq2 <- function(ps, design, auto_gm=TRUE, gm=FALSE, pseudocount=0, ...) {
         ## Normalize if all OTUs have at least one zero
         taxa_with_zeros <- filter_taxa(ps, function(x) sum(x == 0) > 0, TRUE)
         if (ntaxa(taxa_with_zeros) == ntaxa(ps)) {
+            message(
+                "All OTUs have at least one zero."
+                "Using geometric mean on positive values for size factor estimation"
+            )
             gm = TRUE
         }
     }
