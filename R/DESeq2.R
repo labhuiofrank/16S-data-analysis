@@ -9,12 +9,13 @@ geom_mean <- function(x) exp(mean(log(x[x>0]), na.rm=TRUE))
 #' @param design Experimental design. The last variable needs to be the experimental condition to test for
 #' @param gm Whether or not to use geometric mean for size factor estimation. Might be necessary if there are a lot of zero (or add pseudocount
 #' @param pseudocount Pseudocount to add to abundance table if there are too many zeros
+#' @param ... Extra arguments to pass the DESeq function
 #' @return DESeq2 object
 #' @export
 #' @examples
 #' run_deseq2(ps, ~ Season + Group, gm=TRUE)
 #' run_deseq2(ps, ~ Season + Group, pseudocount=1)
-run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
+run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0, ...) {
     ## Add pseudocount if needed
     phyloseq::otu_table(ps) <- phyloseq::otu_table(ps) + pseudocount
 
@@ -28,7 +29,7 @@ run_deseq2 <- function(ps, design, gm=FALSE, pseudocount=0) {
     }
 
     ## Run DESeq2
-    DESeq2::DESeq(diagdds, fitType="local", test="Wald", parallel=TRUE)
+    DESeq2::DESeq(diagdds, ...)
 }
 
 #' Get result table from DESeq2 object between given variable level vs reference
