@@ -4,16 +4,20 @@
 \alias{run_deseq2}
 \title{Wrapper around DESeq functions}
 \usage{
-run_deseq2(ps, design, gm = FALSE, pseudocount = 0)
+run_deseq2(ps, design, auto_gm = TRUE, gm = FALSE, pseudocount = 0, ...)
 }
 \arguments{
 \item{ps}{Phyloseq object}
 
 \item{design}{Experimental design. The last variable needs to be the experimental condition to test for}
 
+\item{auto_gm}{Whether to automatically use modified geometric mean for size factors when too many zeros are present}
+
 \item{gm}{Whether or not to use geometric mean for size factor estimation. Might be necessary if there are a lot of zero (or add pseudocount}
 
 \item{pseudocount}{Pseudocount to add to abundance table if there are too many zeros}
+
+\item{...}{Extra arguments to pass the DESeq function}
 }
 \value{
 DESeq2 object

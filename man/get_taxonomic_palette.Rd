@@ -8,7 +8,7 @@ Uses database in github database repository}
 get_taxonomic_palette(taxa_names)
 }
 \arguments{
-\item{taxa_names}{Vector of taxa names}
+\item{taxa_names}{Vector of taxa names (factor)}
 }
 \value{
 named vector, values are colors in HEX and names are taxa names

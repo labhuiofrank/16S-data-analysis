@@ -9,15 +9,18 @@ the individual files.}
 \usage{
 load_cmaiki(
   folder = NULL,
+  otu_id = 100,
   abund_file = NULL,
   tax_file = NULL,
   meta_file = NULL,
-  tree_file = NULL,
-  otu_id = 100
+  tree_file = NULL
 )
 }
 \arguments{
 \item{folder}{Output folder from MetaFlow|mics}
+
+\item{otu_id}{OTU clustering threshold in case
+multiple values where used}
 
 \item{abund_file}{Path to abundance file
 (either .count_table or .shared)}
@@ -28,9 +31,6 @@ load_cmaiki(
 
 \item{tree_file}{Path to phylogenetic tree (otpional)
 Assumes there is a header and the first column are the sample names}
-
-\item{otu_id}{OTU clustering threshold in case
-multiple values where used}
 }
 \value{
 phyloseq object
