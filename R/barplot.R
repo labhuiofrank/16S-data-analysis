@@ -1,3 +1,20 @@
+#' Wrapper around speedyseq::merge_samples2 for combination of factors
+#'
+#' @param ps Phyloseq object
+#' @param groups variables to define sample groups
+#' @return Phyloseq object with sample merged
+#' @export
+#' @examples
+#' merge_samples3(ps, c("Site", "Season"))
+merge_samples3 <- function(ps, groups) {
+    all_cols <- sapply(groups, function(v) phyloseq::get_variable(ps, v))
+    phyloseq::sample_data(ps)$combined <- apply(all_cols, 1, paste0, collapse="_")
+    ps <- speedyseq::merge_samples2(ps, "combined")
+    sample_data(ps)$combined <- NULL
+
+    return(ps)
+}
+
 #' Palette generator for taxonomic data
 #' Uses database in github database repository
 #'
@@ -66,9 +83,7 @@ taxa_barplot <- function(ps, x=NULL, y="relabund", taxrank="Class",
     # Group taxa by {tax_rank}
     ps <- speedyseq::tax_glom(ps, taxrank)
     # Group samples for each combination of factors in [x, rows, cols]
-    all_cols <- sapply(c(x, rows, cols), function(v) phyloseq::get_variable(ps, v))
-    phyloseq::sample_data(ps)$combined <- apply(all_cols, 1, paste0, collapse="_")
-    ps <- speedyseq::merge_samples2(ps, "combined")
+    ps <- labhuiofrank::merge_samples3(ps, c(x, rows, cols))
     # Transform phyloseq object to data frame and compute relative abundances
     data <- speedyseq::psmelt(ps) %>% dplyr::group_by(combined) %>%
         dplyr::mutate(relabund=Abundance/sum(Abundance))
