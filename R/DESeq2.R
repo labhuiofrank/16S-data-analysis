@@ -68,12 +68,16 @@ get_results_for_single_contrast <- function(diagdds, factor_name, ref, level) {
 #'
 #' @param diagdds DESeq2 object
 #' @param variable condition variable to test
-#' @param comparisons n x 2 dataframe, each row is a comparison to perform
+#' @param comparisons n x 2 dataframe, each row is a comparison to perform. Default is "all" for all pairwise comparisons.
 #' @return result dataframe
 #' @export
 #' @examples
 #' get_results_for_contrasts(diagdds, "Group", c("B", "C"))
-get_results_for_contrasts <- function(diagdds, variable, comparisons) {
+get_results_for_contrasts <- function(diagdds, variable, comparisons="all") {
+    if (comparisons == "all") {
+        var_lvls <- levels(as.factor(diagdds[[variable]]))
+        comparisons <- t(combn(var_lvls, 2))
+    }
     var_order <- unique(c(comparisons))
 
     all_results <- list()
@@ -82,6 +86,6 @@ get_results_for_contrasts <- function(diagdds, variable, comparisons) {
     }
 
     do.call(rbind, all_results) %>%
-      dplyr::mutate(enriched_in=factor(enriched_in, var_order), 
+      dplyr::mutate(enriched_in=factor(enriched_in, var_order),
                     depleted_in=factor(depleted_in, var_order))
 }
