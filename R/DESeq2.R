@@ -58,7 +58,7 @@ get_results_for_single_contrast <- function(diagdds, factor_name, ref, level) {
     dplyr::mutate(enriched_in=ifelse(log2FoldChange < 0, ref, level), 
                   depleted_in=ifelse(log2FoldChange > 0, ref, level)) %>%
     dplyr::mutate(log2FoldChange=abs(log2FoldChange)) %>%
-    dplyr::na.omit(padj) %>%
+    tidyr::drop_na(padj) %>%
     tibble::rownames_to_column("OTU")
 }
 
@@ -82,7 +82,7 @@ get_results_for_contrasts <- function(diagdds, variable, comparisons="all") {
 
     all_results <- list()
     for (i in 1:nrow(comparisons)) {
-        all_results[[i]] <- get_results_for_contrast(diagdds, variable, comparisons[i,2], comparisons[i,1])
+        all_results[[i]] <- get_results_for_single_contrast(diagdds, variable, comparisons[i,2], comparisons[i,1])
     }
 
     do.call(rbind, all_results) %>%
