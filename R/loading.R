@@ -207,7 +207,7 @@ load_cmaiki <- function(folder=NULL, otu_id=100, abund_file=NULL, tax_file=NULL,
     # Add tree if provided
     if(!is.null(tree_file)) {
         check_file_extension(tree_file, "nwk", abort=FALSE)
-        ps_data <- append(ps_data, phyloseq::read_tree(tree_file))
+        ps_data[[4]] = phyloseq::read_tree(tree_file))
     }
     # Compile into phyloseq object
     ps <- do.call(phyloseq::phyloseq, ps_data)
